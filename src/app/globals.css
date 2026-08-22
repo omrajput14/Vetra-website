@@ -1,0 +1,177 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  --bg: #F1EEE1;
+  --bg-alt: #EAE5D4;
+  --ink: #211F16;
+  --ink-soft: #4B4939;
+  --pasture-900: #1E3324;
+  --pasture-700: #2C4A34;
+  --pasture-500: #3F6B49;
+  --clay-700: #7A4E2C;
+  --gold-500: #D2A23A;
+  --gold-600: #B98726;
+  --alert-600: #AE402C;
+  --card: #FBF8EF;
+  --line: rgba(33, 31, 22, 0.14);
+  --line-soft: rgba(33, 31, 22, 0.08);
+  --shadow: 0 20px 50px -25px rgba(30, 51, 36, 0.35);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+}
+
+/* 3D Perspective & Scene Setup */
+.perspective-container {
+  perspective: 1400px;
+  perspective-origin: center center;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Diagonal Engineering Lines Texture */
+.bg-diagonal-lines {
+  background: 
+    repeating-linear-gradient(115deg, transparent 0 62px, rgba(33, 31, 22, 0.06) 62px 63px),
+    #F1EEE1;
+}
+
+.bg-dot-matrix {
+  background-size: 8px 8px;
+  background-image: radial-gradient(rgba(33, 31, 22, 0.12) 1.2px, transparent 1.2px);
+}
+
+/* Holographic Passport Card Styles */
+.passport-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.passport-holo-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(210, 162, 58, 0.25) 50%,
+    rgba(63, 107, 73, 0.2) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.passport-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(63, 107, 73, 0) 0%, rgba(63, 107, 73, 0.22) 50%, rgba(63, 107, 73, 0) 100%);
+  top: -40%;
+  pointer-events: none;
+  animation: scan 4.5s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% { top: -40%; }
+  55% { top: 100%; }
+  100% { top: 100%; }
+}
+
+/* Circular Vet Verified Stamp */
+.vet-stamp {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: 1.5px dashed #B98726;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-14deg);
+  color: #B98726;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(251, 248, 239, 0.75);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(185, 135, 38, 0.12);
+  user-select: none;
+}
+
+/* Eyebrow Label */
+.eyebrow-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2C4A34;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eyebrow-tag::before {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: #B98726;
+  display: inline-block;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EAE5D4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B4AFA0;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2C4A34;
+}
+
+/* 3D Phone Shell */
+.phone-shell-3d {
+  background: #0F1A12;
+  border: 9px solid #0A130D;
+  border-radius: 40px;
+  box-shadow: 0 25px 60px -15px rgba(15, 26, 18, 0.7), inset 0 0 10px rgba(0,0,0,0.8);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
