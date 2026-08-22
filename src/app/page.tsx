@@ -693,7 +693,11 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="text-xs text-ink-soft font-mono uppercase">Phone / WhatsApp</div>
-                  <div className="text-base font-semibold text-pasture-900 mt-0.5">+91 98220 18492</div>
+                  <div className="text-base font-semibold text-pasture-900 mt-0.5">
+                    <a href="https://wa.me/919021961058" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      +91 9021961058
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -703,7 +707,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="text-xs text-ink-soft font-mono uppercase">Location</div>
-                  <div className="text-base font-semibold text-pasture-900 mt-0.5">Nashik &amp; Pune, Maharashtra, India</div>
+                  <div className="text-base font-semibold text-pasture-900 mt-0.5">Maharashtra, India</div>
                 </div>
               </div>
             </div>
