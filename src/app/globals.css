@@ -53,10 +53,10 @@
   transform-style: preserve-3d;
 }
 
-/* Diagonal Engineering Lines Texture */
+/* Archival Diagonal Texture */
 .bg-diagonal-lines {
   background: 
-    repeating-linear-gradient(115deg, transparent 0 62px, rgba(33, 31, 22, 0.06) 62px 63px),
+    repeating-linear-gradient(115deg, transparent 0 62px, rgba(33, 31, 22, 0.05) 62px 63px),
     #F1EEE1;
 }
 
@@ -65,26 +65,54 @@
   background-image: radial-gradient(rgba(33, 31, 22, 0.12) 1.2px, transparent 1.2px);
 }
 
+/* Tactile Materiality Card Styles */
+.tactile-card {
+  background: #FBF8EF;
+  border: 1px solid rgba(33, 31, 22, 0.14);
+  border-radius: 18px;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 20px 50px -25px rgba(30, 51, 36, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.tactile-card:hover {
+  border-color: rgba(33, 31, 22, 0.22);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 25px 60px -20px rgba(30, 51, 36, 0.42);
+}
+
+/* Tactile Embossed Gold Button */
+.btn-gold-tactile {
+  background: #D2A23A;
+  color: #1E3324;
+  font-weight: 600;
+  border-radius: 100px;
+  border: 1px solid #B98726;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 12px -2px rgba(185, 135, 38, 0.4);
+  transition: all 0.15s ease;
+}
+
+.btn-gold-tactile:hover {
+  background: #B98726;
+  transform: translateY(-1px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 6px 16px -2px rgba(185, 135, 38, 0.5);
+}
+
+.btn-gold-tactile:active {
+  transform: translateY(0px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
 /* Holographic Passport Card Styles */
 .passport-3d {
   transform-style: preserve-3d;
   transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
-}
-
-.passport-holo-shine {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.15) 45%,
-    rgba(210, 162, 58, 0.25) 50%,
-    rgba(63, 107, 73, 0.2) 55%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  pointer-events: none;
-  opacity: 0.7;
 }
 
 .passport-scanline {
@@ -121,13 +149,13 @@
   letter-spacing: 0.08em;
   text-align: center;
   text-transform: uppercase;
-  background: rgba(251, 248, 239, 0.75);
+  background: rgba(251, 248, 239, 0.85);
   backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(185, 135, 38, 0.12);
+  box-shadow: 0 4px 12px rgba(185, 135, 38, 0.15), inset 0 0 8px rgba(185, 135, 38, 0.08);
   user-select: none;
 }
 
-/* Eyebrow Label */
+/* Eyebrow Label with Hairline */
 .eyebrow-tag {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
@@ -145,6 +173,14 @@
   height: 1px;
   background: #B98726;
   display: inline-block;
+}
+
+/* Letterpress Monospace Badges */
+.badge-letterpress {
+  font-family: 'IBM Plex Mono', monospace;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(33, 31, 22, 0.12);
+  background: rgba(241, 238, 225, 0.6);
 }
 
 /* Custom Scrollbar */

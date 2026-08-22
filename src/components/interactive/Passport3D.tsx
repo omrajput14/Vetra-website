@@ -132,7 +132,7 @@ export const Passport3D: React.FC = () => {
           transform: transformStyle || "perspective(1000px) rotateX(0deg) rotateY(0deg)",
           transition: "transform 0.15s ease-out",
         }}
-        className="relative w-full bg-card border border-line rounded-2xl p-6 shadow-tactile overflow-hidden passport-3d group cursor-pointer"
+        className="relative w-full bg-card border border-line rounded-2xl p-6 shadow-tactile overflow-hidden passport-3d tactile-card group cursor-pointer"
         onClick={() => setIsFlipped(!isFlipped)}
         title="Click to toggle between Passport & EVMR Lineage"
       >

@@ -7,6 +7,7 @@ import { Passport3D } from "@/components/interactive/Passport3D";
 import { BiosecurityRadar3D } from "@/components/interactive/BiosecurityRadar3D";
 import { PhoneMockup3D } from "@/components/interactive/PhoneMockup3D";
 import { DownloadAppModal } from "@/components/modals/DownloadAppModal";
+import { PaperGrain } from "@/components/ui/PaperGrain";
 import {
   Download,
   Stethoscope,
@@ -76,7 +77,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-bg text-ink selection:bg-gold-500/30 selection:text-pasture-900">
+    <div className="min-h-screen bg-bg text-ink selection:bg-gold-500/30 selection:text-pasture-900 relative">
+      {/* Archival Paper Grain Layer */}
+      <PaperGrain />
+
       {/* ---------- STICKY HEADER ---------- */}
       <header className="sticky top-0 z-50 bg-bg/90 backdrop-blur-md border-b border-line-soft transition-all">
         <nav className="max-w-[1180px] mx-auto px-6 sm:px-8 py-4 flex items-center justify-between">
