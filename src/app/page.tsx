@@ -220,7 +220,7 @@ export default function Home() {
 
               <div className="flex items-center gap-2.5 text-xs sm:text-[13.5px] text-ink-soft pt-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-pasture-500 shrink-0" />
-                <span>Piloting with a farmer network across Maharashtra (Nashik, Baramati, Pune)</span>
+                <span>Piloting with a farmer network across Maharashtra</span>
               </div>
             </div>
 
