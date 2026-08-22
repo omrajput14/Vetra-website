@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Passport3D } from "@/components/interactive/Passport3D";
 import { BiosecurityRadar3D } from "@/components/interactive/BiosecurityRadar3D";
 import { PhoneMockup3D } from "@/components/interactive/PhoneMockup3D";
+import { VoiceTriageSimulator } from "@/components/interactive/VoiceTriageSimulator";
 import { DownloadAppModal } from "@/components/modals/DownloadAppModal";
 import { PaperGrain } from "@/components/ui/PaperGrain";
 import {
@@ -102,6 +103,12 @@ export default function Home() {
               </a>
             </li>
             <li>
+              <a href="#voice-triage" className="text-ink-soft hover:text-pasture-900 transition-colors flex items-center gap-1">
+                <span>Voice Triage</span>
+                <span className="font-mono text-[10px] font-bold bg-gold-500/20 text-pasture-900 px-1.5 py-0.2 rounded">NLP</span>
+              </a>
+            </li>
+            <li>
               <a href="#biosecurity" className="text-ink-soft hover:text-pasture-900 transition-colors">
                 Biosecurity Radar
               </a>
@@ -150,6 +157,13 @@ export default function Home() {
               className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
             >
               Product
+            </a>
+            <a
+              href="#voice-triage"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
+            >
+              Voice Triage (Marathi/Hindi/English)
             </a>
             <a
               href="#biosecurity"
@@ -296,8 +310,15 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ---------- TRILINGUAL VOICE TRIAGE SIMULATOR ---------- */}
+        <section className="py-20 sm:py-24 bg-bg border-t border-line-soft" id="voice-triage">
+          <div className="max-w-[1180px] mx-auto px-6 sm:px-8">
+            <VoiceTriageSimulator />
+          </div>
+        </section>
+
         {/* ---------- 3D BIOSECURITY RADAR SHOWCASE ---------- */}
-        <section className="py-20 sm:py-24 bg-bg" id="biosecurity">
+        <section className="py-20 sm:py-24 bg-bg-alt border-t border-line-soft" id="biosecurity">
           <div className="max-w-[1180px] mx-auto px-6 sm:px-8">
             <div className="max-w-[640px] mb-12">
               <span className="eyebrow-tag">Epidemiological Intelligence</span>
