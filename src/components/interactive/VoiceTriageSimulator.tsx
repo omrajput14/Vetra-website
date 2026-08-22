@@ -14,6 +14,7 @@ import {
   ArrowRight,
   Globe,
   Radio,
+  VolumeX,
 } from "lucide-react";
 
 interface VoiceScenario {
@@ -23,7 +24,9 @@ interface VoiceScenario {
   speaker: string;
   location: string;
   audioText: string;
+  phoneticText?: string;
   englishTranslation: string;
+  words: string[];
   nerEntities: {
     label: string;
     value: string;
@@ -43,11 +46,13 @@ const SCENARIOS: Record<string, VoiceScenario> = {
     id: "marathi",
     langName: "Marathi",
     langNative: "मराठी",
-    speaker: "Ramesh Kadam (Smallholder Farmer)",
+    speaker: "Ramesh Kadam (Dairy Farmer)",
     location: "Sinnar, Nashik District",
     audioText: "माझ्या म्हशीला कालपासून खूप ताप आलाय, चारा खात नाहीये आणि मागचे खुर सुजले आहेत.",
+    phoneticText: "माझ्या म्हशीला कालपासून खूप ताप आला आहे, चारा खात नाहीये आणि मागचे खूर सुजले आहेत.",
     englishTranslation:
       "My buffalo has had a high fever since yesterday, is completely off-feed, and the hind hooves are swollen.",
+    words: ["माझ्या", "म्हशीला", "कालपासून", "खूप", "ताप", "आलाय,", "चारा", "खात", "नाहीये", "आणि", "मागचे", "खुर", "सुजले", "आहेत."],
     nerEntities: [
       { label: "Species", value: "Bovine / Murrah Buffalo", type: "species" },
       { label: "Symptom", value: "Acute Pyrexia (>104°F)", type: "symptom" },
@@ -72,6 +77,7 @@ const SCENARIOS: Record<string, VoiceScenario> = {
     audioText: "मेरी गाय के शरीर पर गोल-गोल सख्त गांठें निकल आई हैं और आंखों से लगातार पानी बह रहा है।",
     englishTranslation:
       "My cow has hard circular nodules erupting across its body and continuous watery discharge from both eyes.",
+    words: ["मेरी", "गाय", "के", "शरीर", "पर", "गोल-गोल", "गांठें", "निकल", "आई", "हैं", "और", "आंखों", "से", "पानी", "बह", "रहा", "है।"],
     nerEntities: [
       { label: "Species", value: "Bos indicus / Gir Cattle", type: "species" },
       { label: "Symptom", value: "Cutaneous Circumscribed Nodules", type: "symptom" },
@@ -96,6 +102,7 @@ const SCENARIOS: Record<string, VoiceScenario> = {
     audioText: "Crossbred dairy heifer presenting with acute ruminal tympany, left flank distension, and respiratory distress.",
     englishTranslation:
       "Crossbred dairy heifer presenting with acute ruminal tympany, left flank distension, and respiratory distress.",
+    words: ["Crossbred", "heifer", "showing", "acute", "ruminal", "tympany,", "left", "flank", "distension,", "and", "respiratory", "distress."],
     nerEntities: [
       { label: "Species", value: "Crossbred HF Heifer (380 kg)", type: "species" },
       { label: "Symptom", value: "Left Ruminal Tympany / Distension", type: "symptom" },
@@ -116,8 +123,11 @@ export const VoiceTriageSimulator: React.FC = () => {
   const [selectedLang, setSelectedLang] = useState<"marathi" | "hindi" | "english">("marathi");
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [highlightIndex, setHighlightIndex] = useState(0);
+  const [activeWordIdx, setActiveWordIdx] = useState(-1);
+  const [highlightEntityIdx, setHighlightEntityIdx] = useState(0);
+  const [audioSupported, setAudioSupported] = useState(true);
   const animationRef = useRef<NodeJS.Timeout | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
   const scenario = SCENARIOS[selectedLang];
 
@@ -125,6 +135,44 @@ export const VoiceTriageSimulator: React.FC = () => {
   useEffect(() => {
     stopAudio();
   }, [selectedLang]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopAudio();
+    };
+  }, []);
+
+  // Play subtle radio mic acoustic beep using Web Audio API
+  const playMicBeep = () => {
+    try {
+      if (typeof window !== "undefined") {
+        const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        if (AudioCtx) {
+          if (!audioCtxRef.current) {
+            audioCtxRef.current = new AudioCtx();
+          }
+          const ctx = audioCtxRef.current;
+          if (ctx.state === "suspended") {
+            ctx.resume();
+          }
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(800, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.1);
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.12);
+        }
+      }
+    } catch {
+      // audio context not allowed without prior interaction
+    }
+  };
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -137,48 +185,97 @@ export const VoiceTriageSimulator: React.FC = () => {
   const playAudio = () => {
     setIsPlaying(true);
     setProgress(0);
-    setHighlightIndex(0);
+    setActiveWordIdx(0);
+    setHighlightEntityIdx(0);
+    playMicBeep();
 
-    // Try native browser SpeechSynthesis if available
+    const duration = 6000; // 6 seconds simulated duration
+    const startTime = Date.now();
+
+    // Smart Cross-Platform Speech Synthesis Voice Resolution
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(scenario.audioText);
-      if (selectedLang === "marathi") utterance.lang = "mr-IN";
-      else if (selectedLang === "hindi") utterance.lang = "hi-IN";
-      else utterance.lang = "en-IN";
+      try {
+        window.speechSynthesis.cancel();
 
-      utterance.rate = 0.95;
-      utterance.onend = () => {
-        stopAudio();
-      };
-      window.speechSynthesis.speak(utterance);
+        // Use phonetic text for optimal Devanagari pronunciation
+        const textToSpeak = scenario.phoneticText || scenario.audioText;
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+        const voices = window.speechSynthesis.getVoices();
+
+        let targetVoice = null;
+        if (selectedLang === "marathi") {
+          // Find Marathi voice or fallback to Hindi Devanagari voice (Hindi TTS reads Marathi text smoothly)
+          targetVoice =
+            voices.find((v) => v.lang.startsWith("mr") || v.name.toLowerCase().includes("marathi")) ||
+            voices.find((v) => v.lang.startsWith("hi") || v.name.toLowerCase().includes("hindi")) ||
+            voices.find((v) => v.lang.includes("IN") || v.name.toLowerCase().includes("india"));
+          utterance.lang = targetVoice ? targetVoice.lang : "hi-IN";
+        } else if (selectedLang === "hindi") {
+          targetVoice =
+            voices.find((v) => v.lang.startsWith("hi") || v.name.toLowerCase().includes("hindi")) ||
+            voices.find((v) => v.lang.includes("IN"));
+          utterance.lang = targetVoice ? targetVoice.lang : "hi-IN";
+        } else {
+          targetVoice =
+            voices.find((v) => v.lang.startsWith("en-IN") || v.name.toLowerCase().includes("india")) ||
+            voices.find((v) => v.lang.startsWith("en"));
+          utterance.lang = "en-IN";
+        }
+
+        if (targetVoice) {
+          utterance.voice = targetVoice;
+        }
+
+        utterance.rate = 0.88; // slightly slower, natural field tempo
+        utterance.pitch = 1.0;
+
+        utterance.onerror = (e) => {
+          console.warn("SpeechSynthesis notice:", e);
+        };
+
+        utterance.onend = () => {
+          // smoothly let the wave timer finish
+        };
+
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.warn("TTS initialization fallback:", err);
+      }
     }
 
-    // Visual wave animation timer
-    const startTime = Date.now();
-    const duration = 6500; // 6.5s simulated voice length
-
+    // High-resolution Waveform & Karaoke Word Highlighting Timer
     animationRef.current = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const currentProgress = Math.min(100, (elapsed / duration) * 100);
       setProgress(currentProgress);
 
-      const entityStep = Math.floor((currentProgress / 100) * scenario.nerEntities.length);
-      setHighlightIndex(entityStep);
+      // Calculate active word index
+      const wordStep = Math.floor((currentProgress / 100) * scenario.words.length);
+      setActiveWordIdx(Math.min(scenario.words.length - 1, wordStep));
+
+      // Calculate extracted NER entity index
+      const entityStep = Math.floor((currentProgress / 100) * (scenario.nerEntities.length + 1));
+      setHighlightEntityIdx(entityStep);
 
       if (elapsed >= duration) {
         stopAudio();
       }
-    }, 60);
+    }, 50);
   };
 
   const stopAudio = () => {
     setIsPlaying(false);
     setProgress(0);
-    setHighlightIndex(scenario.nerEntities.length);
+    setActiveWordIdx(-1);
+    setHighlightEntityIdx(scenario.nerEntities.length);
     if (animationRef.current) clearInterval(animationRef.current);
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // ignore
+      }
     }
   };
 
@@ -198,7 +295,7 @@ export const VoiceTriageSimulator: React.FC = () => {
             Rural Voice-to-Clinical Triage
           </h3>
           <p className="text-xs sm:text-sm text-ink-soft mt-0.5">
-            Farmers describe symptoms in their mother tongue — Vetra extracts clinical entities and routes ICAR protocols instantly.
+            Farmers speak symptoms in their mother tongue — Vetra parses Devanagari phonetics, extracts clinical entities, and assigns ICAR protocols.
           </p>
         </div>
 
@@ -243,28 +340,49 @@ export const VoiceTriageSimulator: React.FC = () => {
               </span>
             </div>
 
-            {/* Simulated Animated Waveform Bars */}
+            {/* Dynamic Waveform Visualizer */}
             <div className="flex items-center gap-1.5 h-12 px-3 bg-card rounded-xl border border-line-soft overflow-hidden">
               {[40, 65, 85, 30, 90, 50, 75, 95, 35, 60, 80, 45, 90, 65, 30, 85, 70, 40, 95, 55, 35, 75, 50, 85].map(
-                (h, idx) => (
-                  <div
-                    key={idx}
-                    className="flex-1 bg-pasture-500/30 rounded-full transition-all duration-150"
-                    style={{
-                      height: isPlaying ? `${Math.max(15, (h * (Math.sin(idx + progress / 5) + 1.2)) / 2)}%` : "20%",
-                      backgroundColor: isPlaying && idx <= (progress / 100) * 24 ? "#1E3324" : "rgba(63, 107, 73, 0.25)",
-                    }}
-                  />
-                )
+                (h, idx) => {
+                  const isBarActive = isPlaying && idx <= (progress / 100) * 24;
+                  return (
+                    <div
+                      key={idx}
+                      className="flex-1 rounded-full transition-all duration-150"
+                      style={{
+                        height: isPlaying ? `${Math.max(20, (h * (Math.sin(idx + progress / 4) + 1.3)) / 2.2)}%` : "20%",
+                        backgroundColor: isBarActive ? "#1E3324" : "rgba(63, 107, 73, 0.22)",
+                      }}
+                    />
+                  );
+                }
               )}
             </div>
 
-            {/* Spoken Text Display */}
-            <div className="space-y-1.5 pt-1">
-              <div className="text-base font-serif font-medium text-pasture-900 leading-snug">
-                &ldquo;{scenario.audioText}&rdquo;
+            {/* Spoken Text Display with Synchronized Word Karaoke Highlighting */}
+            <div className="space-y-2 pt-1">
+              <div className="text-base sm:text-lg font-serif font-medium text-pasture-900 leading-relaxed flex flex-wrap gap-1.5">
+                {scenario.words.map((word, wIdx) => {
+                  const isWordSpoken = isPlaying && wIdx === activeWordIdx;
+                  const isPast = isPlaying && wIdx < activeWordIdx;
+                  return (
+                    <span
+                      key={wIdx}
+                      className={`transition-all duration-200 px-1 py-0.5 rounded ${
+                        isWordSpoken
+                          ? "bg-gold-500 text-pasture-900 font-bold scale-105 shadow-xs"
+                          : isPast
+                          ? "text-pasture-900 font-medium"
+                          : "text-pasture-900/80"
+                      }`}
+                    >
+                      {word}
+                    </span>
+                  );
+                })}
               </div>
-              <div className="text-xs text-ink-soft italic leading-relaxed">
+
+              <div className="text-xs text-ink-soft italic leading-relaxed pt-1 border-t border-line-soft">
                 Translation: &ldquo;{scenario.englishTranslation}&rdquo;
               </div>
             </div>
@@ -281,7 +399,7 @@ export const VoiceTriageSimulator: React.FC = () => {
               </button>
 
               <span className="font-mono text-xs text-ink-soft">
-                {isPlaying ? `Processing (${Math.round(progress)}%)` : "Click to play voice"}
+                {isPlaying ? `Processing Speech (${Math.round(progress)}%)` : "Click to play voice"}
               </span>
             </div>
           </div>
@@ -295,7 +413,7 @@ export const VoiceTriageSimulator: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-gold-600" />
                 <h4 className="font-serif font-bold text-sm text-pasture-900">
-                  Real-time Clinical Named Entity Recognition (NER)
+                  Clinical Named Entity Recognition (NER)
                 </h4>
               </div>
               <span className="font-mono text-[10px] text-pasture-700 font-bold uppercase">
@@ -306,7 +424,7 @@ export const VoiceTriageSimulator: React.FC = () => {
             {/* Extracted Entity Badges */}
             <div className="flex flex-wrap gap-2">
               {scenario.nerEntities.map((entity, idx) => {
-                const isExtracted = !isPlaying || idx <= highlightIndex;
+                const isExtracted = !isPlaying || idx < highlightEntityIdx;
                 const typeColor = {
                   species: "bg-blue-50 border-blue-200 text-blue-950",
                   symptom: "bg-amber-50 border-amber-200 text-amber-950",
@@ -318,7 +436,7 @@ export const VoiceTriageSimulator: React.FC = () => {
                   <div
                     key={entity.label}
                     className={`px-3 py-1.5 rounded-xl border text-xs font-mono transition-all duration-300 flex items-center gap-1.5 shadow-xs ${
-                      isExtracted ? typeColor : "bg-bg-alt/40 border-line-soft text-ink-soft/40 opacity-40"
+                      isExtracted ? typeColor : "bg-bg-alt/40 border-line-soft text-ink-soft/30 opacity-35"
                     }`}
                   >
                     <span className="text-[10px] uppercase font-bold opacity-70">{entity.label}:</span>
