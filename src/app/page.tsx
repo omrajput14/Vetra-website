@@ -87,12 +87,15 @@ export default function Home() {
         <nav className="max-w-[1180px] mx-auto px-6 sm:px-8 py-4 flex items-center justify-between">
           {/* Brand Logo */}
           <Link href="#top" className="flex items-center gap-2.5 font-serif font-semibold text-xl text-pasture-900 group">
-            <svg className="w-7 h-6 transition-transform group-hover:scale-105" viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 2H22L28 9V22C28 23.1 27.1 24 26 24H4C2.9 24 2 23.1 2 22V4C2 2.9 2.9 2 4 2Z" stroke="#1E3324" strokeWidth="2" />
-              <circle cx="21" cy="8" r="2.2" stroke="#1E3324" strokeWidth="1.6" />
-              <text x="7" y="18" fontFamily="'IBM Plex Mono', monospace" fontSize="10" fill="#1E3324">V</text>
-            </svg>
-            <span>Vetra</span>
+            <Image
+              src="/branding/vetra_logo_transparent.png"
+              alt="Vetra Logo"
+              width={38}
+              height={38}
+              className="w-9 h-9 object-contain transition-transform group-hover:scale-105"
+              priority
+            />
+            <span className="tracking-tight">Vetra</span>
           </Link>
 
           {/* Desktop Nav Links */}
@@ -722,10 +725,15 @@ export default function Home() {
             {/* Brand Column */}
             <div className="lg:col-span-2 space-y-3">
               <div className="flex items-center gap-2.5 font-serif font-semibold text-xl text-bg">
-                <svg className="w-6 h-5" viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 2H22L28 9V22C28 23.1 27.1 24 26 24H4C2.9 24 2 23.1 2 22V4C2 2.9 2.9 2 4 2Z" stroke="#F1EEE1" strokeWidth="2" />
-                  <circle cx="21" cy="8" r="2.2" stroke="#F1EEE1" strokeWidth="1.6" />
-                </svg>
+                <div className="w-8 h-8 rounded-lg bg-bg/10 p-0.5 flex items-center justify-center">
+                  <Image
+                    src="/branding/vetra_logo_transparent.png"
+                    alt="Vetra Logo"
+                    width={32}
+                    height={32}
+                    className="w-7 h-7 object-contain brightness-125"
+                  />
+                </div>
                 <span>Vetra</span>
               </div>
               <p className="text-xs text-bg/70 max-w-[28ch] leading-relaxed">
