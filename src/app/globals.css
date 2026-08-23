@@ -211,3 +211,71 @@
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
 }
+
+/* ==========================================================================
+   Veterinary Clinical Report Print Styles (@media print)
+   ========================================================================== */
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    overflow: visible !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide entire page structure */
+  header,
+  nav,
+  main,
+  footer,
+  .no-print,
+  .passport-scanline,
+  .paper-grain,
+  button {
+    display: none !important;
+  }
+
+  /* Only display the dedicated printable report container */
+  #vetra-printable-report {
+    display: block !important;
+    position: relative !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Ensure print typography and borders are crisp black/gray */
+  #vetra-printable-report h1,
+  #vetra-printable-report h2,
+  #vetra-printable-report h3,
+  #vetra-printable-report h4 {
+    color: #000000 !important;
+  }
+
+  #vetra-printable-report .border,
+  #vetra-printable-report .border-line,
+  #vetra-printable-report .border-line-soft {
+    border-color: #d1d5db !important;
+  }
+
+  #vetra-printable-report .bg-bg-alt,
+  #vetra-printable-report .bg-card,
+  #vetra-printable-report .bg-bg {
+    background-color: #f9fafb !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+}

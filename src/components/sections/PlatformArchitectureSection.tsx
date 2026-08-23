@@ -123,7 +123,7 @@ export const PlatformArchitectureSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: AI-Assisted Clinical Intelligence */}
+          {/* Card 2: Multilingual AI & Clinical Intelligence */}
           <div className="bg-card border border-line rounded-2xl p-7 sm:p-8 space-y-5 tactile-card hover:bg-white transition-all shadow-tactile flex flex-col justify-between">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -136,20 +136,20 @@ export const PlatformArchitectureSection: React.FC = () => {
               </div>
 
               <h3 className="font-serif text-xl sm:text-2xl font-bold text-pasture-900 tracking-tight">
-                AI-Assisted Clinical Intelligence
+                Multilingual Veterinary Assistance
               </h3>
 
               <p className="text-sm text-ink-soft leading-relaxed">
-                Vetra helps interpret farmer-reported symptoms through multilingual voice input and AI-assisted analysis, helping veterinarians make faster decisions.
+                Farmers can communicate animal health concerns in their preferred language. Vetra helps bridge the communication gap between rural livestock owners and veterinary professionals.
               </p>
             </div>
 
             <div className="space-y-2.5 pt-4 border-t border-dashed border-line-soft">
               {[
-                "Voice-based symptom reporting",
-                "Multilingual interaction",
-                "Clinical information extraction",
-                "Veterinary review workflow",
+                "Multilingual voice (Marathi, Hindi, English)",
+                "Natural speech-to-text symptom capture",
+                "Structured preliminary clinical summary",
+                "Veterinarian-governed final care & Rx",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2.5 text-xs text-pasture-900 font-medium">
                   <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">

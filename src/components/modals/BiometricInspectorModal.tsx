@@ -17,6 +17,8 @@ import {
   Layers,
   MapPin,
   ExternalLink,
+  Stethoscope,
+  Info,
 } from "lucide-react";
 
 export interface BiometricAnimalDetails {
@@ -62,7 +64,12 @@ export const BiometricInspectorModal: React.FC<BiometricInspectorModalProps> = (
   animal,
 }) => {
   const [copied, setCopied] = useState(false);
-  const [isPrinting, setIsPrinting] = useState(false);
+
+  const currentDate = new Date().toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
   const handleCopyHash = () => {
     navigator.clipboard.writeText(animal.hash);
@@ -71,11 +78,148 @@ export const BiometricInspectorModal: React.FC<BiometricInspectorModalProps> = (
   };
 
   const handlePrint = () => {
-    setIsPrinting(true);
-    setTimeout(() => {
+    // Generate clean, isolated printable certificate in dedicated window
+    const printWindow = window.open("", "_blank", "width=850,height=1000");
+    if (!printWindow) {
       window.print();
-      setIsPrinting(false);
-    }, 300);
+      return;
+    }
+
+    const certificateHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8"/>
+          <title>Vetra EVMR Certificate - ${animal.id}</title>
+          <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 36px 40px; color: #111827; background: #ffffff; font-size: 11pt; line-height: 1.45; }
+            .header { border-bottom: 2px solid #1E3324; padding-bottom: 14px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: flex-start; }
+            .title { font-size: 17pt; font-weight: 800; color: #1E3324; text-transform: uppercase; letter-spacing: -0.01em; }
+            .subtitle { font-size: 9.5pt; color: #4B4939; margin-top: 4px; font-weight: 500; }
+            .standard { font-size: 8.5pt; color: #6B7280; margin-top: 2px; }
+            .meta-box { text-align: right; font-family: monospace; font-size: 9pt; }
+            .section { margin-bottom: 20px; }
+            .section-title { font-size: 10pt; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid #D1D5DB; padding-bottom: 4px; margin-bottom: 10px; color: #1E3324; font-family: monospace; letter-spacing: 0.05em; }
+            .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+            .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+            .card { border: 1px solid #E5E7EB; padding: 10px 12px; border-radius: 8px; background: #F9FAFB; font-size: 9.5pt; }
+            .label { font-size: 8pt; text-transform: uppercase; color: #6B7280; font-weight: 700; font-family: monospace; margin-bottom: 2px; }
+            .value { font-weight: 700; color: #111827; }
+            table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 9.5pt; font-family: monospace; }
+            th { background: #F3F4F6; text-align: left; padding: 8px 10px; border: 1px solid #D1D5DB; font-size: 8.5pt; text-transform: uppercase; font-weight: 700; color: #374151; }
+            td { padding: 8px 10px; border: 1px solid #E5E7EB; }
+            .footer { border-top: 2px solid #1E3324; padding-top: 18px; margin-top: 32px; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9pt; }
+            .sig-box { text-align: center; width: 230px; border-top: 1px solid #4B5563; padding-top: 6px; font-family: monospace; }
+            @page { size: A4 portrait; margin: 12mm 15mm; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div>
+              <div class="title">Vetra Electronic Veterinary Medical Record</div>
+              <div class="subtitle">Official Livestock Identity &amp; Lifetime Health Ledger Certificate</div>
+              <div class="standard">Aligned with ICAR, NDDB &amp; Veterinary Council of India (VCI) Guidelines</div>
+            </div>
+            <div class="meta-box">
+              <strong>DATE: ${currentDate}</strong><br/>
+              <span style="color: #4B5563;">REF: VTR-${animal.id}</span>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">1. Animal Identification &amp; Biometric Registry</div>
+            <div class="grid-2">
+              <div class="card">
+                <div><span class="label">Animal Identifier</span><div class="value">${animal.id}</div></div>
+                <div style="margin-top: 6px;"><span class="label">Species / Breed</span><div class="value">${animal.species} · ${animal.breed}</div></div>
+                <div style="margin-top: 6px;"><span class="label">Biometric Muzzle Verification</span><div class="value" style="color: #065F46;">${animal.muzzleMatch}</div></div>
+              </div>
+              <div class="card">
+                <div><span class="label">Registered Owner / Farm</span><div class="value">${animal.owner}</div></div>
+                <div style="margin-top: 6px;"><span class="label">Geographic Location</span><div class="value">${animal.location}</div></div>
+                <div style="margin-top: 6px;"><span class="label">RFID ISO Standard</span><div class="value">${animal.rfidChip} (ISO 11784/85)</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">2. Pedigree Lineage &amp; Production Profile</div>
+            <div class="grid-2">
+              <div class="card">
+                <div class="label">Sire (Father) Lineage</div>
+                <div class="value">${animal.pedigree.sire}</div>
+                <div style="font-size: 8.5pt; color: #4B5563; margin-top: 2px;">${animal.pedigree.sireStation}</div>
+                <div style="font-size: 8.5pt; color: #065F46; font-weight: 600; margin-top: 2px;">${animal.pedigree.sireProgeny}</div>
+              </div>
+              <div class="card">
+                <div class="label">Dam (Mother) Lineage</div>
+                <div class="value">${animal.pedigree.dam}</div>
+                <div style="font-size: 8.5pt; color: #4B5563; margin-top: 2px;">${animal.pedigree.damLactation}</div>
+                <div style="font-size: 8.5pt; color: #4B5563;">Yield: ${animal.pedigree.damYield}</div>
+              </div>
+            </div>
+
+            <div class="grid-4" style="margin-top: 10px;">
+              <div class="card"><div class="label">Daily Average</div><div class="value">${animal.milkYield.avgDaily}</div></div>
+              <div class="card"><div class="label">Peak Record</div><div class="value">${animal.milkYield.peakDaily}</div></div>
+              <div class="card"><div class="label">Fat %</div><div class="value" style="color: #065F46;">${animal.milkYield.fatPercentage}</div></div>
+              <div class="card"><div class="label">SNF %</div><div class="value" style="color: #065F46;">${animal.milkYield.snfPercentage}</div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">3. Verified Immunization &amp; Clinical Intervention Ledger</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Vaccine / Health Intervention</th>
+                  <th>Batch Number</th>
+                  <th>Date Administered</th>
+                  <th>Attending Veterinarian</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${animal.vaxAudit
+                  .map(
+                    (vax) => `
+                  <tr>
+                    <td><strong>${vax.name}</strong></td>
+                    <td style="color: #4B5563;">${vax.batch}</td>
+                    <td>${vax.date}</td>
+                    <td><strong>${vax.vet}</strong></td>
+                  </tr>
+                `
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="footer">
+            <div>
+              <strong>ISSUING AUTHORITY:</strong> ${animal.authority}<br/>
+              <span style="font-size: 8pt; color: #6B7280; font-family: monospace;">Cryptographic Verification Hash: ${animal.hash.substring(0, 32)}...</span>
+            </div>
+            <div class="sig-box">
+              <strong>Authorized Clinical Officer</strong><br/>
+              <span style="font-size: 8pt; color: #6B7280;">Registered VCI Practitioner</span>
+            </div>
+          </div>
+
+          <script>
+            window.onload = function() {
+              window.focus();
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(certificateHtml);
+    printWindow.document.close();
   };
 
   return (
@@ -103,8 +247,9 @@ export const BiometricInspectorModal: React.FC<BiometricInspectorModalProps> = (
           </div>
 
           <button
+            type="button"
             onClick={handleCopyHash}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-card border border-line text-ink text-[11px] hover:bg-white transition-all cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-card border border-line text-ink text-[11px] hover:bg-white transition-all cursor-pointer shadow-xs no-print"
             title="Copy SHA-256 Biometric Hash"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -216,9 +361,10 @@ export const BiometricInspectorModal: React.FC<BiometricInspectorModalProps> = (
           </div>
         </div>
 
-        {/* Action Buttons: Print PDF & Export Certificate */}
-        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+        {/* Action Buttons: Print PDF & Close */}
+        <div className="flex flex-col sm:flex-row gap-3 pt-2 no-print">
           <button
+            type="button"
             onClick={handlePrint}
             className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full font-semibold text-sm btn-gold-tactile cursor-pointer"
           >
@@ -227,6 +373,7 @@ export const BiometricInspectorModal: React.FC<BiometricInspectorModalProps> = (
           </button>
 
           <button
+            type="button"
             onClick={onClose}
             className="inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold text-sm bg-transparent border border-pasture-900 text-pasture-900 hover:bg-pasture-900 hover:text-bg transition-all cursor-pointer"
           >

@@ -152,14 +152,22 @@ export const VoiceTriageSimulator: React.FC = () => {
   return (
     <div className="space-y-12 select-none">
       {/* Section Header */}
-      <div className="max-w-[680px] text-left">
-        <span className="eyebrow-tag">AI-ASSISTED VETERINARY SUPPORT</span>
+      <div className="max-w-[720px] text-left">
+        <span className="eyebrow-tag">MULTILINGUAL VETERINARY ASSISTANCE</span>
         <h2 className="font-serif text-3xl sm:text-4xl lg:text-[40px] text-pasture-900 font-semibold mt-3.5 mb-4 leading-[1.12] tracking-tight">
-          From farmer observations to meaningful veterinary insights.
+          From farmer observations in their native tongue to structured clinical insights.
         </h2>
         <p className="text-base sm:text-[17px] text-ink-soft leading-relaxed">
-          Vetra helps farmers describe animal health concerns through simple conversations and provides structured information that helps veterinarians understand the situation faster.
+          Farmers can communicate animal health concerns in their preferred language. Vetra helps bridge the communication gap between rural livestock owners and veterinary professionals by structuring preliminary descriptions for doctor review.
         </p>
+
+        {/* Supported Languages Pill Strip */}
+        <div className="flex flex-wrap items-center gap-2 pt-3 font-mono text-xs">
+          <span className="text-ink-soft text-[11px] font-bold uppercase tracking-wider">Supported Languages:</span>
+          <span className="bg-bg-alt border border-line px-2.5 py-1 rounded-full text-pasture-900 font-semibold">मराठी (Marathi)</span>
+          <span className="bg-bg-alt border border-line px-2.5 py-1 rounded-full text-pasture-900 font-semibold">हिंदी (Hindi)</span>
+          <span className="bg-bg-alt border border-line px-2.5 py-1 rounded-full text-pasture-900 font-semibold">English</span>
+        </div>
       </div>
 
       {/* Main 2-Column Console: Farmer Voice Input & AI Extraction */}
