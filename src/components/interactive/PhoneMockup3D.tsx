@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Camera, Sparkles, Stethoscope, CheckCircle, RefreshCw } from "lucide-react";
+import { Camera, Sparkles, Stethoscope, CheckCircle, RefreshCw, Volume2, Pause, Loader2 } from "lucide-react";
+import { useElevenLabsAudio } from "@/lib/useElevenLabsAudio";
 
 interface SymptomScan {
   id: string;
   name: string;
   condition: string;
+  spokenSummary: string;
   confidence: string;
   urgency: string;
   assignedDoc: string;
@@ -17,6 +19,8 @@ const SCANS: SymptomScan[] = [
     id: "footrot",
     name: "Hoof Lesion",
     condition: "Likely: Foot rot (early stage)",
+    spokenSummary:
+      "Vetra Vision Triage: Early stage foot rot identified on hoof margin. Recommended action: 2% potassium permanganate foot bath and physical verification by Dr. Pawar.",
     confidence: "89% Match",
     urgency: "MODERATE",
     assignedDoc: "Dr. Pawar (Nashik)",
@@ -25,6 +29,8 @@ const SCANS: SymptomScan[] = [
     id: "lsd",
     name: "Skin Nodules",
     condition: "Likely: Lumpy Skin Disease (LSD)",
+    spokenSummary:
+      "Critical Biosecurity Alert: Circumscribed skin nodules consistent with Lumpy Skin Disease. 15 km isolation perimeter and goat pox ring vaccination protocol initiated.",
     confidence: "94% Match",
     urgency: "HIGH CLINICAL",
     assignedDoc: "Dr. Deshmukh (Baramati)",
@@ -33,6 +39,8 @@ const SCANS: SymptomScan[] = [
     id: "mastitis",
     name: "Udder Swelling",
     condition: "Likely: Subclinical Mastitis",
+    spokenSummary:
+      "Veterinary Alert: Subclinical mastitis detected from localized udder swelling. California Mastitis Test and somatic cell count audit advised by Dr. Kulkarni.",
     confidence: "91% Match",
     urgency: "ATTENTION",
     assignedDoc: "Dr. Kulkarni (Pune)",
@@ -45,6 +53,22 @@ export const PhoneMockup3D: React.FC = () => {
   const phoneRef = useRef<HTMLDivElement>(null);
 
   const activeScan = SCANS[activeScanIdx];
+
+  const { isPlaying, isLoading, playText, stopAudio } = useElevenLabsAudio();
+
+  const handleToggleVoice = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPlaying) {
+      stopAudio();
+    } else {
+      playText(activeScan.spokenSummary);
+    }
+  };
+
+  const handleCycleScan = () => {
+    stopAudio();
+    setActiveScanIdx((prev) => (prev + 1) % SCANS.length);
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!phoneRef.current) return;
@@ -78,7 +102,7 @@ export const PhoneMockup3D: React.FC = () => {
           transition: "transform 0.15s ease-out",
         }}
         className="w-[260px] h-[520px] bg-[#0F1A12] border-[8px] border-[#0A130D] rounded-[42px] shadow-2xl p-4 relative cursor-pointer group"
-        onClick={() => setActiveScanIdx((prev) => (prev + 1) % SCANS.length)}
+        onClick={handleCycleScan}
         title="Click to cycle AI vision diagnostic scenarios"
       >
         {/* Dynamic Notch */}
@@ -111,21 +135,37 @@ export const PhoneMockup3D: React.FC = () => {
             </span>
           </div>
 
-          {/* AI Diagnosis Result Box */}
+          {/* AI Diagnosis Result Box with ElevenLabs Audio Button */}
           <div className="space-y-1 bg-bg-alt/90 p-3 rounded-xl border border-line-soft text-xs">
-            <strong className="block text-pasture-900 font-bold text-[13px] leading-tight">
-              {activeScan.condition}
-            </strong>
+            <div className="flex items-center justify-between">
+              <strong className="block text-pasture-900 font-bold text-[13px] leading-tight">
+                {activeScan.condition}
+              </strong>
+              <button
+                type="button"
+                onClick={handleToggleVoice}
+                className="w-6 h-6 rounded-full bg-pasture-900 hover:bg-pasture-800 text-bg flex items-center justify-center shrink-0 cursor-pointer shadow-xs"
+                title="Listen to diagnosis explanation"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-3 h-3 animate-spin text-gold-500" />
+                ) : isPlaying ? (
+                  <Pause className="w-3 h-3 text-gold-500" />
+                ) : (
+                  <Volume2 className="w-3 h-3 text-gold-500" />
+                )}
+              </button>
+            </div>
             <p className="text-[11px] text-ink-soft leading-snug">
-              Confidence: <span className="font-mono text-pasture-700 font-bold">{activeScan.confidence}</span> · Routed to {activeScan.assignedDoc} for review.
+              Confidence: <span className="font-mono text-pasture-700 font-bold">{activeScan.confidence}</span> · Routed to {activeScan.assignedDoc}.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="mt-3 text-[11px] text-ink-soft flex items-center gap-1.5">
+      <div className="mt-3 text-[11px] text-ink-soft flex items-center gap-1.5 font-mono">
         <Sparkles className="w-3.5 h-3.5 text-gold-600" />
-        <span>Click phone to test different symptom scans</span>
+        <span>Click phone to cycle · Click speaker for ElevenLabs voice</span>
       </div>
     </div>
   );

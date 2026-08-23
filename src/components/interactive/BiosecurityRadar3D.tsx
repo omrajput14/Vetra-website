@@ -1,7 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShieldAlert, Radio, AlertTriangle, CheckCircle2, MapPin, Activity, BellRing } from "lucide-react";
+import {
+  ShieldAlert,
+  Radio,
+  AlertTriangle,
+  CheckCircle2,
+  MapPin,
+  Activity,
+  BellRing,
+  Volume2,
+  Pause,
+  Loader2,
+} from "lucide-react";
+import { useElevenLabsAudio } from "@/lib/useElevenLabsAudio";
 
 interface OutbreakScenario {
   id: string;
@@ -12,6 +24,7 @@ interface OutbreakScenario {
   severity: "HIGH" | "CRITICAL" | "MODERATE";
   vaccineBooster: string;
   status: string;
+  spokenAdvisory: string;
 }
 
 const SCENARIOS: OutbreakScenario[] = [
@@ -24,6 +37,8 @@ const SCENARIOS: OutbreakScenario[] = [
     severity: "CRITICAL",
     vaccineBooster: "Goat Pox Heterologous Ring Vaccine",
     status: "Ring Containment Active",
+    spokenAdvisory:
+      "Vetra Biosecurity Broadcast: Confirmed Lumpy Skin Disease outbreak within 15 kilometer perimeter of Nashik North. 142 dairy holdings placed under automated movement restriction. Heterologous goat pox ring vaccination dispatched.",
   },
   {
     id: "fmd",
@@ -34,6 +49,8 @@ const SCENARIOS: OutbreakScenario[] = [
     severity: "HIGH",
     vaccineBooster: "FMD Quadrivalent Booster",
     status: "Surveillance Radius Triggered",
+    spokenAdvisory:
+      "Epidemiological Warning: Foot and Mouth Disease confirmed in Baramati Cluster. 10 kilometer surveillance radius active across 88 farms. Disinfection protocols and quadrivalent booster mobilization in progress.",
   },
   {
     id: "hs",
@@ -44,6 +61,8 @@ const SCENARIOS: OutbreakScenario[] = [
     severity: "HIGH",
     vaccineBooster: "HS Adjuvant Vaccine",
     status: "Advisory Broadcast Dispatched",
+    spokenAdvisory:
+      "Precautionary Livestock Health Advisory: Hemorrhagic Septicemia alert in Ahmednagar Sector. 210 registered holdings advised to verify adjuvant vaccination status immediately.",
   },
 ];
 
@@ -52,6 +71,21 @@ export const BiosecurityRadar3D: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const scenario = SCENARIOS.find((s) => s.id === selectedScenario) || SCENARIOS[0];
+
+  const { isPlaying, isLoading, playText, stopAudio } = useElevenLabsAudio();
+
+  const handleToggleVoice = () => {
+    if (isPlaying) {
+      stopAudio();
+    } else {
+      playText(scenario.spokenAdvisory);
+    }
+  };
+
+  const handleSelectScenario = (id: string) => {
+    stopAudio();
+    setSelectedScenario(id);
+  };
 
   return (
     <div className="bg-pasture-900 text-bg rounded-3xl p-6 sm:p-9 border border-pasture-700/60 shadow-tactile-lg relative overflow-hidden">
@@ -107,11 +141,31 @@ export const BiosecurityRadar3D: React.FC = () => {
 
         {/* Right: Live Outbreak Intelligence Console */}
         <div className="lg:col-span-6 space-y-4">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-alert-600 animate-ping" />
-            <span className="font-mono text-xs font-semibold uppercase tracking-widest text-gold-500">
-              Real-time Epidemiological Radar
-            </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-alert-600 animate-ping" />
+              <span className="font-mono text-xs font-semibold uppercase tracking-widest text-gold-500">
+                Real-time Epidemiological Radar
+              </span>
+            </div>
+
+            {/* ElevenLabs Voice Broadcast Audio Trigger */}
+            <button
+              type="button"
+              onClick={handleToggleVoice}
+              disabled={isLoading}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold-500 hover:bg-gold-600 text-pasture-900 text-xs font-mono font-bold transition-all cursor-pointer shadow-sm disabled:opacity-60"
+              title="Broadcast audio advisory using ElevenLabs"
+            >
+              {isLoading ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : isPlaying ? (
+                <Pause className="w-3.5 h-3.5" />
+              ) : (
+                <Volume2 className="w-3.5 h-3.5" />
+              )}
+              <span>{isPlaying ? "Stop Audio Alert" : "Play Voice Advisory"}</span>
+            </button>
           </div>
 
           <h3 className="font-serif text-2xl sm:text-3xl text-bg font-bold">
@@ -131,7 +185,7 @@ export const BiosecurityRadar3D: React.FC = () => {
               {SCENARIOS.map((scen) => (
                 <button
                   key={scen.id}
-                  onClick={() => setSelectedScenario(scen.id)}
+                  onClick={() => handleSelectScenario(scen.id)}
                   className={`p-2.5 rounded-xl border text-left font-mono text-xs transition-all cursor-pointer ${
                     selectedScenario === scen.id
                       ? "bg-gold-500 text-pasture-900 border-gold-500 font-bold shadow-md"

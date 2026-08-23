@@ -7,6 +7,13 @@ import { Passport3D } from "@/components/interactive/Passport3D";
 import { BiosecurityRadar3D } from "@/components/interactive/BiosecurityRadar3D";
 import { PhoneMockup3D } from "@/components/interactive/PhoneMockup3D";
 import { VoiceTriageSimulator } from "@/components/interactive/VoiceTriageSimulator";
+import { ProblemStatementSection } from "@/components/sections/ProblemStatementSection";
+import { PlatformArchitectureSection } from "@/components/sections/PlatformArchitectureSection";
+import { DigitalPassportSection } from "@/components/sections/DigitalPassportSection";
+import { ExperienceVetraSection } from "@/components/sections/ExperienceVetraSection";
+import { AiAssessmentDemoSection } from "@/components/sections/AiAssessmentDemoSection";
+import { HowVetraWorksSection } from "@/components/sections/HowVetraWorksSection";
+import { TrustAndCredibilitySection } from "@/components/sections/TrustAndCredibilitySection";
 import { DownloadAppModal } from "@/components/modals/DownloadAppModal";
 import { PaperGrain } from "@/components/ui/PaperGrain";
 import {
@@ -99,36 +106,41 @@ export default function Home() {
           </Link>
 
           {/* Desktop Nav Links */}
-          <ul className="hidden md:flex items-center gap-7 text-[14.5px]">
+          <ul className="hidden md:flex items-center gap-6 text-[14px]">
             <li>
               <a href="#product" className="text-ink-soft hover:text-pasture-900 transition-colors">
-                Product
+                Platform
+              </a>
+            </li>
+            <li>
+              <a href="#passport" className="text-ink-soft hover:text-pasture-900 transition-colors">
+                Passport
+              </a>
+            </li>
+            <li>
+              <a href="#ai-scanner" className="text-ink-soft hover:text-pasture-900 transition-colors">
+                AI Scanner
               </a>
             </li>
             <li>
               <a href="#voice-triage" className="text-ink-soft hover:text-pasture-900 transition-colors flex items-center gap-1">
                 <span>Voice Triage</span>
-                <span className="font-mono text-[10px] font-bold bg-gold-500/20 text-pasture-900 px-1.5 py-0.2 rounded">NLP</span>
+                <span className="font-mono text-[10px] font-bold bg-gold-500/20 text-pasture-900 px-1.5 py-0.2 rounded">Voice AI</span>
               </a>
             </li>
             <li>
               <a href="#biosecurity" className="text-ink-soft hover:text-pasture-900 transition-colors">
-                Biosecurity Radar
+                Radar
               </a>
             </li>
             <li>
               <a href="#how" className="text-ink-soft hover:text-pasture-900 transition-colors">
-                How it works
+                Workflow
               </a>
             </li>
             <li>
-              <a href="#download" className="text-ink-soft hover:text-pasture-900 transition-colors">
-                Download
-              </a>
-            </li>
-            <li>
-              <a href="#contact" className="text-ink-soft hover:text-pasture-900 transition-colors">
-                Contact
+              <a href="#credibility" className="text-ink-soft hover:text-pasture-900 transition-colors">
+                Trust &amp; Safety
               </a>
             </li>
             <li>
@@ -159,7 +171,21 @@ export default function Home() {
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
             >
-              Product
+              Platform Overview
+            </a>
+            <a
+              href="#passport"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
+            >
+              Digital Animal Passport
+            </a>
+            <a
+              href="#ai-scanner"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
+            >
+              AI Symptom Scanner
             </a>
             <a
               href="#voice-triage"
@@ -173,7 +199,7 @@ export default function Home() {
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
             >
-              Biosecurity Radar
+              Biosecurity Outbreak Radar
             </a>
             <a
               href="#how"
@@ -183,18 +209,11 @@ export default function Home() {
               How it works
             </a>
             <a
-              href="#download"
+              href="#credibility"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
             >
-              Download APK / App
-            </a>
-            <a
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              Contact
+              Trust &amp; Safety Governance
             </a>
             <a
               href="#register-vet"
@@ -213,7 +232,7 @@ export default function Home() {
           <div className="max-w-[1180px] mx-auto px-6 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             {/* Left Hero Text Column */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <span className="eyebrow-tag">LIVESTOCK HEALTH INFRASTRUCTURE • INDIA</span>
+              <span className="eyebrow-tag">EARLY ACCESS PROTOTYPE • DEVELOPED FOR INDIAN LIVESTOCK CARE</span>
 
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-[54px] text-pasture-900 font-semibold tracking-tight leading-[1.06]">
                 A record for every animal.<br className="hidden sm:inline" /> A radius for every outbreak.
@@ -225,10 +244,10 @@ export default function Home() {
 
               <div className="flex flex-wrap gap-3.5 pt-2">
                 <a
-                  href="#product"
+                  href="#experience"
                   className="btn-gold-tactile inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base cursor-pointer"
                 >
-                  Explore Vetra
+                  Experience Working Demos
                 </a>
 
                 <a
@@ -252,66 +271,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- PILLARS SECTION ---------- */}
-        <section className="py-20 sm:py-24 bg-bg-alt" id="product">
-          <div className="max-w-[1180px] mx-auto px-6 sm:px-8">
-            <div className="max-w-[640px] mb-12">
-              <span className="eyebrow-tag">What Vetra does</span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-pasture-900 font-semibold mt-3.5 mb-3">
-                Three systems, one animal record.
-              </h2>
-              <p className="text-base text-ink-soft leading-relaxed">
-                Built for the realities of rural veterinary care — patchy connectivity, scattered paper records, and veterinarians who cover more ground than any single clinic can.
-              </p>
-            </div>
+        {/* ---------- EXPERIENCE VETRA: QUICK-LAUNCH SHOWCASE BAR ---------- */}
+        <ExperienceVetraSection />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-line border border-line rounded-2xl overflow-hidden shadow-sm">
-              {/* Pillar 1: Digital Passport */}
-              <div className="bg-card p-8 sm:p-9 space-y-4 hover:bg-white transition-colors">
-                <div className="w-12 h-12 rounded-xl bg-pasture-900 flex items-center justify-center text-bg shadow-sm">
-                  <svg className="w-6 h-6 stroke-current fill-none stroke-[1.6]" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="4" width="18" height="16" rx="2" />
-                    <path d="M7 9h10M7 13h6" />
-                    <circle cx="17" cy="16" r="1.4" />
-                  </svg>
-                </div>
-                <h3 className="font-serif text-xl font-bold text-pasture-900">Digital Passport</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  Every animal gets an ear-tag ID, a health timeline, and an immutable vaccination record that travels with it — not in a paper notebook inside a desk drawer.
-                </p>
-              </div>
+        {/* ---------- PROBLEM STATEMENT: THE LIVESTOCK HEALTH CHALLENGE ---------- */}
+        <ProblemStatementSection />
 
-              {/* Pillar 2: AI Diagnosis */}
-              <div className="bg-card p-8 sm:p-9 space-y-4 hover:bg-white transition-colors">
-                <div className="w-12 h-12 rounded-xl bg-pasture-900 flex items-center justify-center text-bg shadow-sm">
-                  <svg className="w-6 h-6 stroke-current fill-none stroke-[1.6]" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="M20 20l-4.35-4.35" />
-                    <path d="M11 8v3l2 1.5" />
-                  </svg>
-                </div>
-                <h3 className="font-serif text-xl font-bold text-pasture-900">AI-Assisted Diagnosis</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  Photograph a symptom and Vetra&apos;s ICAR-aligned vision model flags likely conditions in seconds, then routes the case directly to a registered vet for physical confirmation.
-                </p>
-              </div>
+        {/* ---------- THE VETRA PLATFORM ARCHITECTURE ---------- */}
+        <PlatformArchitectureSection />
 
-              {/* Pillar 3: Biosecurity Radius */}
-              <div className="bg-card p-8 sm:p-9 space-y-4 hover:bg-white transition-colors">
-                <div className="w-12 h-12 rounded-xl bg-pasture-900 flex items-center justify-center text-bg shadow-sm">
-                  <svg className="w-6 h-6 stroke-current fill-none stroke-[1.6]" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="3" />
-                    <circle cx="12" cy="12" r="9" strokeDasharray="2 3" />
-                  </svg>
-                </div>
-                <h3 className="font-serif text-xl font-bold text-pasture-900">Biosecurity Radius</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  When a contagious disease is clinically confirmed, every registered farm within the alert radius is notified automatically — stopping outbreaks before they spread.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* ---------- DIGITAL ANIMAL PASSPORT SHOWCASE ---------- */}
+        <DigitalPassportSection />
+
+        {/* ---------- AI-ASSISTED CLINICAL ASSESSMENT DEMO ---------- */}
+        <AiAssessmentDemoSection />
 
         {/* ---------- TRILINGUAL VOICE TRIAGE SIMULATOR ---------- */}
         <section className="py-20 sm:py-24 bg-bg border-t border-line-soft" id="voice-triage">
@@ -337,58 +310,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- HOW IT WORKS ---------- */}
-        <section className="py-20 sm:py-24 bg-bg-alt border-y border-line-soft" id="how">
-          <div className="max-w-[1180px] mx-auto px-6 sm:px-8">
-            <div className="max-w-[640px] mb-14">
-              <span className="eyebrow-tag">How it works</span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-pasture-900 font-semibold mt-3.5 mb-3">
-                From symptom to safeguard in four steps.
-              </h2>
-              <p className="text-base text-ink-soft leading-relaxed">
-                A seamless bridge between dairy farmers in the shed and certified practitioners in the district.
-              </p>
-            </div>
+        {/* ---------- HOW VETRA WORKS: 5-STAGE WORKFLOW ---------- */}
+        <HowVetraWorksSection />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
-              {/* Step 1 */}
-              <div className="border-t-2 border-pasture-500 pt-5 space-y-2">
-                <span className="font-mono text-sm font-bold text-gold-600 block">01</span>
-                <h3 className="font-serif text-lg font-bold text-pasture-900">Register &amp; tag</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  Add the animal to Vetra, assign a cryptographic ear-tag ID, and log its baseline health and pedigree offline.
-                </p>
-              </div>
-
-              {/* Step 2 */}
-              <div className="border-t-2 border-pasture-500 pt-5 space-y-2">
-                <span className="font-mono text-sm font-bold text-gold-600 block">02</span>
-                <h3 className="font-serif text-lg font-bold text-pasture-900">Scan &amp; report</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  Farmer photographs a symptom in the app — voice or text in Marathi, Hindi, or English. No clinic travel required to start.
-                </p>
-              </div>
-
-              {/* Step 3 */}
-              <div className="border-t-2 border-pasture-500 pt-5 space-y-2">
-                <span className="font-mono text-sm font-bold text-gold-600 block">03</span>
-                <h3 className="font-serif text-lg font-bold text-pasture-900">Vet verifies</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  A registered VCI veterinarian reviews the AI triage reading, visits or video-consults, and charts the official 90s EVMR.
-                </p>
-              </div>
-
-              {/* Step 4 */}
-              <div className="border-t-2 border-pasture-500 pt-5 space-y-2">
-                <span className="font-mono text-sm font-bold text-gold-600 block">04</span>
-                <h3 className="font-serif text-lg font-bold text-pasture-900">Radius alerts</h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  Contagious cases immediately trigger automated ring-vaccination alerts to every registered farm within the radius.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* ---------- TRUST & CREDIBILITY GOVERNANCE ---------- */}
+        <TrustAndCredibilitySection />
 
         {/* ---------- DOWNLOAD / EARLY ACCESS & 3D PHONE ---------- */}
         <section className="py-20 sm:py-24 bg-pasture-900 text-bg relative overflow-hidden" id="download">
