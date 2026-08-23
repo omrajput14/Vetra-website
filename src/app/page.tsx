@@ -213,35 +213,35 @@ export default function Home() {
           <div className="max-w-[1180px] mx-auto px-6 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             {/* Left Hero Text Column */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <span className="eyebrow-tag">Livestock health · digitized</span>
+              <span className="eyebrow-tag">LIVESTOCK HEALTH INFRASTRUCTURE • INDIA</span>
 
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-[54px] text-pasture-900 font-semibold tracking-tight leading-[1.06]">
-                A record for every animal. A radius for every outbreak.
+                A record for every animal.<br className="hidden sm:inline" /> A radius for every outbreak.
               </h1>
 
-              <p className="text-base sm:text-[17.5px] text-ink-soft max-w-[46ch] leading-relaxed">
-                Vetra gives every animal a digital passport, flags disease early with AI-assisted diagnosis, and warns nearby farms the moment something contagious is confirmed.
+              <p className="text-base sm:text-[17.5px] text-ink-soft max-w-[48ch] leading-relaxed">
+                Vetra is India&apos;s livestock health infrastructure platform connecting farmers, veterinarians, and disease surveillance networks through digital animal records, AI-assisted triage, and outbreak intelligence.
               </p>
 
               <div className="flex flex-wrap gap-3.5 pt-2">
                 <a
-                  href="#download"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base bg-gold-500 hover:bg-gold-600 text-pasture-900 transition-all transform hover:-translate-y-0.5 shadow-sm"
+                  href="#product"
+                  className="btn-gold-tactile inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base cursor-pointer"
                 >
-                  Get early access
+                  Explore Vetra
                 </a>
 
                 <a
                   href="#register-vet"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base bg-transparent border border-pasture-900 text-pasture-900 hover:bg-pasture-900 hover:text-bg transition-all transform hover:-translate-y-0.5"
                 >
-                  Register as a vet
+                  For Veterinarians
                 </a>
               </div>
 
-              <div className="flex items-center gap-2.5 text-xs sm:text-[13.5px] text-ink-soft pt-2">
+              <div className="flex items-center gap-2.5 text-xs sm:text-[13.5px] text-ink-soft pt-2 font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-pasture-500 shrink-0" />
-                <span>Piloting with a farmer network across Maharashtra</span>
+                <span>Built for rural veterinary networks across India</span>
               </div>
             </div>
 

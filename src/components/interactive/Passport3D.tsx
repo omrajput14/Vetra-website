@@ -1,33 +1,67 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import Image from "next/image";
 import {
   ShieldCheck,
-  QrCode,
-  Sparkles,
   Check,
-  RefreshCw,
   FileText,
-  ArrowRight,
   Fingerprint,
-  ExternalLink,
-  Award,
+  Activity,
+  AlertCircle,
+  Clock,
+  Stethoscope,
+  ChevronRight,
+  Sparkles,
 } from "lucide-react";
 import { BiometricInspectorModal, BiometricAnimalDetails } from "@/components/modals/BiometricInspectorModal";
 
-const BIOMETRIC_ANIMALS: Record<string, BiometricAnimalDetails> = {
+interface HealthTimelineEvent {
+  date: string;
+  title: string;
+  detail: string;
+  status: "Normal" | "Verified" | "Completed";
+}
+
+interface EnterpriseAnimalData extends BiometricAnimalDetails {
+  rfidStandard: string;
+  jurisdiction: string;
+  riskScore: {
+    score: number;
+    rating: "Low" | "Moderate" | "Elevated";
+    contagionStatus: string;
+    biosecurityTier: string;
+  };
+  healthTimeline: HealthTimelineEvent[];
+  lastInspection: {
+    officer: string;
+    regNumber: string;
+    station: string;
+    date: string;
+    vitalsSummary: string;
+    withdrawalStatus: string;
+  };
+}
+
+const ENTERPRISE_RECORDS: Record<string, EnterpriseAnimalData> = {
   buffalo: {
-    id: "MH-15-04521",
+    id: "IN-MH-15-04521",
     tagNumber: "IN-MH-15-04521",
-    species: "Buffalo",
-    breed: "Murrah",
-    owner: "Kadam Farm",
-    location: "Nashik, Maharashtra",
-    healthStatus: "Healthy — verified",
+    species: "Bovine",
+    breed: "Murrah Buffalo",
+    owner: "Kadam Dairy Unit",
+    location: "Western Maharashtra Division",
+    jurisdiction: "Zone 4 • Sub-District Veterinary Network",
+    healthStatus: "Active • Verified Healthy",
+    rfidStandard: "ISO 11784/85 FDX-B (134.2 kHz)",
     hash: "e9a8f4c2849102bd9384fe710294821a94bc7201df829103e91823471029481a",
     rfidChip: "134.2 kHz ISO 11784/85 FDX-B",
     muzzleMatch: "Muzzle Pattern Match: 99.8%",
+    riskScore: {
+      score: 0.08,
+      rating: "Low",
+      contagionStatus: "0 Contagious Alerts in 25 km Radius",
+      biosecurityTier: "Tier-1 Compliance",
+    },
     pedigree: {
       sire: "Murrah Bull #IN-HR-04-BULL-9821",
       sireStation: "CIRB Hisar Semen Station (Progeny Tested)",
@@ -44,24 +78,61 @@ const BIOMETRIC_ANIMALS: Record<string, BiometricAnimalDetails> = {
       lactationCycle: "Lactation 2",
       daysInMilk: "Day 114 in Milk",
     },
-    vaxAudit: [
-      { name: "FMD (Foot & Mouth)", date: "May 12, 2026", vet: "Dr. Pawar (VCI #8821)", batch: "FMD-OIL-B24" },
-      { name: "HS (Hemorrhagic Septicemia)", date: "Feb 04, 2026", vet: "Dr. Pawar (VCI #8821)", batch: "HS-ADJ-910" },
-      { name: "BQ (Black Quarter)", date: "Nov 18, 2025", vet: "Dr. Pawar (VCI #8821)", batch: "BQ-ALUM-402" },
+    healthTimeline: [
+      {
+        date: "12 May 2026",
+        title: "Clinical Herd Health Audit",
+        detail: "Normal rumen motility, mucous membranes pink, temp 38.2°C",
+        status: "Normal",
+      },
+      {
+        date: "04 Feb 2026",
+        title: "Prophylactic Immunization",
+        detail: "Hemorrhagic Septicemia booster administered (Batch #HS-910)",
+        status: "Completed",
+      },
+      {
+        date: "18 Nov 2025",
+        title: "Biometric Tag & Pedigree Certification",
+        detail: "Cryptographic muzzle print verification & RFID initialization",
+        status: "Verified",
+      },
     ],
-    authority: "VCI Maharashtra Council & NDDB INAPH Aligned",
+    vaxAudit: [
+      { name: "FMD (Foot & Mouth)", date: "12 May 2026", vet: "Dr. R. Pawar (VCI #8821)", batch: "FMD-OIL-B24" },
+      { name: "HS (Hemorrhagic Septicemia)", date: "04 Feb 2026", vet: "Dr. R. Pawar (VCI #8821)", batch: "HS-ADJ-910" },
+      { name: "BQ (Black Quarter)", date: "18 Nov 2025", vet: "Dr. R. Pawar (VCI #8821)", batch: "BQ-ALUM-402" },
+      { name: "Brucellosis", date: "15 Jun 2025", vet: "Dr. R. Pawar (VCI #8821)", batch: "BRU-S19-108" },
+    ],
+    lastInspection: {
+      officer: "Dr. R. Pawar, B.V.Sc & A.H.",
+      regNumber: "VCI Reg. #8821 / MSVC-2018",
+      station: "District Veterinary Polyclinic",
+      date: "12 May 2026",
+      vitalsSummary: "Temp 38.2°C • Pulse 54 bpm • Respiration 18/min",
+      withdrawalStatus: "0 Active Antimicrobial Courses • Safe for Dairy Supply",
+    },
+    authority: "National Livestock Digital Registry • ICAR Aligned",
   },
   cattle: {
-    id: "MH-14-84920",
+    id: "IN-MH-14-84920",
     tagNumber: "IN-MH-14-84920",
-    species: "Cattle",
+    species: "Bovine",
     breed: "Gir (Indigenous Zebu)",
-    owner: "Patil Dairy",
-    location: "Baramati, Pune",
-    healthStatus: "Healthy — verified",
+    owner: "Patil Livestock Enterprise",
+    location: "Pune Rural Division",
+    jurisdiction: "Zone 2 • Baramati Veterinary Network",
+    healthStatus: "Active • Verified Healthy",
+    rfidStandard: "ISO 11784/85 FDX-B (134.2 kHz)",
     hash: "a1b7c933182904bc710294821a8f94a20b7c193e5d0a624df829103e91823471",
     rfidChip: "134.2 kHz ISO 11784/85 FDX-B",
     muzzleMatch: "Muzzle Pattern Match: 99.9%",
+    riskScore: {
+      score: 0.05,
+      rating: "Low",
+      contagionStatus: "0 Contagious Alerts in 25 km Radius",
+      biosecurityTier: "Tier-1 Compliance",
+    },
     pedigree: {
       sire: "Gir Bull 'Gopala' #IN-GJ-02-BULL-1102",
       sireStation: "Amreli Indigenous Breeding Trust",
@@ -78,24 +149,61 @@ const BIOMETRIC_ANIMALS: Record<string, BiometricAnimalDetails> = {
       lactationCycle: "Lactation 2",
       daysInMilk: "Day 82 in Milk",
     },
-    vaxAudit: [
-      { name: "FMD (Foot & Mouth)", date: "Apr 20, 2026", vet: "Dr. Deshmukh (VCI #8491)", batch: "FMD-OIL-B24" },
-      { name: "LSD (Lumpy Skin Disease)", date: "Feb 15, 2026", vet: "Dr. Deshmukh (VCI #8491)", batch: "LSD-HET-081" },
-      { name: "HS (Hemorrhagic Septicemia)", date: "Nov 02, 2025", vet: "Dr. Deshmukh (VCI #8491)", batch: "HS-ADJ-881" },
+    healthTimeline: [
+      {
+        date: "20 Apr 2026",
+        title: "Herd Inspection & FMD Vaccination",
+        detail: "Quadrivalent FMD vaccine booster injected subcutaneously",
+        status: "Completed",
+      },
+      {
+        date: "15 Feb 2026",
+        title: "LSD Heterologous Immunization",
+        detail: "Goat pox viral strain vaccine booster administered",
+        status: "Completed",
+      },
+      {
+        date: "02 Nov 2025",
+        title: "Annual Physical Evaluation",
+        detail: "BCS 3.5/5 • Vitals stable • Zero parasitic burden",
+        status: "Normal",
+      },
     ],
-    authority: "VCI Maharashtra Council & NDDB INAPH Aligned",
+    vaxAudit: [
+      { name: "FMD (Foot & Mouth)", date: "20 Apr 2026", vet: "Dr. S. Deshmukh (VCI #8491)", batch: "FMD-OIL-B24" },
+      { name: "LSD (Lumpy Skin)", date: "15 Feb 2026", vet: "Dr. S. Deshmukh (VCI #8491)", batch: "LSD-HET-081" },
+      { name: "HS (Hemorrhagic Septicemia)", date: "02 Nov 2025", vet: "Dr. S. Deshmukh (VCI #8491)", batch: "HS-ADJ-881" },
+      { name: "Theileriosis", date: "18 Aug 2025", vet: "Dr. S. Deshmukh (VCI #8491)", batch: "THEIL-ATT-042" },
+    ],
+    lastInspection: {
+      officer: "Dr. S. Deshmukh, B.V.Sc & A.H.",
+      regNumber: "VCI Reg. #8491 / MSVC-2016",
+      station: "Baramati Veterinary Center",
+      date: "20 Apr 2026",
+      vitalsSummary: "Temp 38.6°C • Pulse 62 bpm • Respiration 22/min",
+      withdrawalStatus: "0 Active Antimicrobial Courses • Safe for Dairy Supply",
+    },
+    authority: "National Livestock Digital Registry • ICAR Aligned",
   },
   goat: {
-    id: "RJ-21-11928",
+    id: "IN-RJ-21-11928",
     tagNumber: "IN-RJ-21-11928",
     species: "Caprine",
     breed: "Sirohi",
-    owner: "Rathore Farm",
-    location: "Nagaur, Rajasthan",
-    healthStatus: "Observation — clear",
+    owner: "Rathore Smallholder Unit",
+    location: "Nagaur District Division",
+    jurisdiction: "Zone 1 • Semi-Arid Pastoral Registry",
+    healthStatus: "Active • Verified Healthy",
+    rfidStandard: "ISO 11784/85 FDX-B (134.2 kHz)",
     hash: "f831d044710294821a94bc7201df829103e91823471029481ae9a8f4c2849102",
     rfidChip: "134.2 kHz ISO 11784/85 FDX-B",
     muzzleMatch: "Biometric Iris & Tag Sync: 99.7%",
+    riskScore: {
+      score: 0.12,
+      rating: "Low",
+      contagionStatus: "0 Contagious Alerts in 25 km Radius",
+      biosecurityTier: "Tier-1 Compliance",
+    },
     pedigree: {
       sire: "Sirohi Buck #IN-RJ-21-BUCK-410",
       sireStation: "CSWRI Avikanagar Dual-Purpose Line",
@@ -112,24 +220,53 @@ const BIOMETRIC_ANIMALS: Record<string, BiometricAnimalDetails> = {
       lactationCycle: "Lactation 2",
       daysInMilk: "Day 45 in Milk",
     },
-    vaxAudit: [
-      { name: "PPR (Peste des Petits)", date: "Aug 14, 2025", vet: "Dr. Joshi (VCI #1184)", batch: "PPR-VAC-109" },
-      { name: "ET (Enterotoxaemia)", date: "Sep 22, 2025", vet: "Dr. Joshi (VCI #1184)", batch: "ET-ALUM-331" },
-      { name: "HS (Hemorrhagic Septicemia)", date: "Nov 10, 2025", vet: "Dr. Joshi (VCI #1184)", batch: "HS-ADJ-722" },
+    healthTimeline: [
+      {
+        date: "14 Aug 2025",
+        title: "PPR Vaccination & General Check",
+        detail: "Peste des Petits Ruminants live attenuated vaccine dose",
+        status: "Completed",
+      },
+      {
+        date: "22 Sep 2025",
+        title: "Enterotoxaemia Immunization",
+        detail: "Alum precipitated Clostridium perfringens toxoid booster",
+        status: "Completed",
+      },
+      {
+        date: "10 Nov 2025",
+        title: "Deworming & Vitals Audit",
+        detail: "Broad-spectrum anthelmintic dose administered",
+        status: "Verified",
+      },
     ],
-    authority: "Rajasthan State Veterinary Council Aligned",
+    vaxAudit: [
+      { name: "PPR (Peste des Petits)", date: "14 Aug 2025", vet: "Dr. M. Joshi (VCI #1184)", batch: "PPR-VAC-109" },
+      { name: "ET (Enterotoxaemia)", date: "22 Sep 2025", vet: "Dr. M. Joshi (VCI #1184)", batch: "ET-ALUM-331" },
+      { name: "HS (Hemorrhagic Septicemia)", date: "10 Nov 2025", vet: "Dr. M. Joshi (VCI #1184)", batch: "HS-ADJ-722" },
+      { name: "Goat Pox", date: "05 May 2025", vet: "Dr. M. Joshi (VCI #1184)", batch: "GP-ATT-119" },
+    ],
+    lastInspection: {
+      officer: "Dr. M. Joshi, B.V.Sc & A.H.",
+      regNumber: "VCI Reg. #1184 / RSVC-2015",
+      station: "Pastoral Veterinary Clinic",
+      date: "10 Nov 2025",
+      vitalsSummary: "Temp 39.1°C • Pulse 76 bpm • Respiration 24/min",
+      withdrawalStatus: "0 Active Antimicrobial Courses • Compliant",
+    },
+    authority: "State Livestock Health Registry • ICAR Aligned",
   },
 };
 
 export const Passport3D: React.FC = () => {
   const [selectedAnimal, setSelectedAnimal] = useState<"buffalo" | "cattle" | "goat">("buffalo");
-  const [isFlipped, setIsFlipped] = useState(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"record" | "timeline">("record");
   const [transformStyle, setTransformStyle] = useState("");
   const [shineStyle, setShineStyle] = useState({ opacity: 0, x: 50, y: 50 });
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const animal = BIOMETRIC_ANIMALS[selectedAnimal];
+  const animal = ENTERPRISE_RECORDS[selectedAnimal];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -139,216 +276,233 @@ export const Passport3D: React.FC = () => {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -12; // tilt angle
-    const rotateY = ((x - centerX) / centerX) * 12;
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
 
     setTransformStyle(
-      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`
+      `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`
     );
 
     setShineStyle({
-      opacity: 0.8,
+      opacity: 0.6,
       x: (x / rect.width) * 100,
       y: (y / rect.height) * 100,
     });
   };
 
   const handleMouseLeave = () => {
-    setTransformStyle("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
+    setTransformStyle("perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
     setShineStyle({ opacity: 0, x: 50, y: 50 });
   };
 
   return (
     <>
-      <div className="flex flex-col items-center w-full max-w-[420px] mx-auto select-none">
-        {/* Species Selector Switcher */}
-        <div className="flex items-center gap-1.5 p-1 bg-bg-alt border border-line rounded-full mb-4">
+      <div className="flex flex-col items-center w-full max-w-[440px] mx-auto select-none">
+        {/* Top Species Switcher Tabs */}
+        <div className="flex items-center gap-1 p-1 bg-bg-alt border border-line rounded-full mb-3">
           {(["buffalo", "cattle", "goat"] as const).map((key) => (
             <button
               key={key}
               onClick={() => setSelectedAnimal(key)}
               className={`px-3.5 py-1 text-xs font-mono font-medium rounded-full transition-all cursor-pointer capitalize ${
                 selectedAnimal === key
-                  ? "bg-pasture-900 text-bg shadow-xs font-semibold"
+                  ? "bg-pasture-900 text-bg shadow-xs font-bold"
                   : "text-ink-soft hover:text-ink hover:bg-black/5"
               }`}
             >
-              {key}
+              {key === "buffalo" ? "Murrah Buffalo" : key === "cattle" ? "Gir Cattle" : "Sirohi Goat"}
             </button>
           ))}
         </div>
 
-        {/* 3D Tilt Card Wrapper */}
+        {/* 3D Enterprise Health Record Interface Card */}
         <div
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           style={{
-            transform: transformStyle || "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+            transform: transformStyle || "perspective(1200px) rotateX(0deg) rotateY(0deg)",
             transition: "transform 0.15s ease-out",
           }}
-          className="relative w-full bg-card border border-line rounded-2xl p-6 shadow-tactile overflow-hidden passport-3d tactile-card group cursor-pointer"
-          onClick={() => setIsFlipped(!isFlipped)}
-          title="Click card to toggle between Passport & EVMR Lineage"
+          className="relative w-full bg-card border border-line rounded-2xl p-5 sm:p-6 shadow-tactile overflow-hidden passport-3d tactile-card group"
         >
-          {/* Dynamic Holographic Cursor Shine */}
+          {/* Dynamic Specular Sheen */}
           <div
             className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-300 z-30"
             style={{
               opacity: shineStyle.opacity,
-              background: `radial-gradient(circle 280px at ${shineStyle.x}% ${shineStyle.y}%, rgba(210, 162, 58, 0.22), rgba(63, 107, 73, 0.15), transparent 70%)`,
+              background: `radial-gradient(circle 300px at ${shineStyle.x}% ${shineStyle.y}%, rgba(210, 162, 58, 0.18), rgba(63, 107, 73, 0.12), transparent 70%)`,
             }}
           />
 
-          {/* Laser Scanline Beam */}
-          <div className="passport-scanline z-20" />
+          {/* Subdued Laser Scanline */}
+          <div className="passport-scanline z-20 opacity-70" />
 
-          {/* Card Face 1: Official Digital Passport */}
-          {!isFlipped ? (
-            <div className="relative z-10 space-y-4">
-              {/* Top Bar with Interactive RFID Tag Inspection Trigger */}
-              <div className="flex justify-between items-start pb-4 border-b border-dashed border-line">
-                <div>
-                  <div className="font-mono text-[11px] uppercase tracking-widest text-pasture-700 font-semibold flex items-center gap-1.5">
-                    <span>Animal Digital Passport</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-pasture-500 animate-pulse" />
-                  </div>
-                  <div className="font-mono text-xl font-bold text-ink mt-1 tracking-tight">
-                    {animal.id}
-                  </div>
+          {/* Content Structure */}
+          <div className="relative z-10 space-y-4 text-ink">
+            {/* 1. Institutional Header & Animal ID */}
+            <div className="flex justify-between items-start pb-3 border-b border-dashed border-line">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-pasture-700">
+                  <span className="w-2 h-2 rounded-full bg-pasture-500 animate-pulse" />
+                  <span>National Health Registry</span>
                 </div>
-
-                {/* Clickable RFID QR Badge */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsInspectorOpen(true);
-                  }}
-                  className="p-1.5 rounded-lg bg-bg-alt/90 border border-line hover:border-gold-600 hover:bg-gold-50 transition-all cursor-pointer group/tag shadow-xs flex flex-col items-center gap-0.5"
-                  title="Inspect Biometric Tag Hash & Lineage"
-                >
-                  <Fingerprint className="w-5 h-5 text-pasture-900 group-hover/tag:text-gold-600 transition-colors" />
-                  <span className="text-[9px] font-mono font-bold text-pasture-700 group-hover/tag:text-gold-700">
-                    INSPECT
-                  </span>
-                </button>
+                <div className="font-mono text-xl font-bold tracking-tight text-pasture-900">
+                  {animal.id}
+                </div>
+                <div className="text-[11px] text-ink-soft">
+                  {animal.species} · {animal.breed}
+                </div>
               </div>
 
-              {/* Middle: Avatar + Key Metadata */}
-              <div className="flex gap-4 items-center">
-                <div className="w-16 h-16 rounded-xl bg-pasture-700 flex items-center justify-center shrink-0 shadow-sm border border-pasture-900/20">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="w-9 h-9 text-bg"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M4 10c0-2 1.5-4 4-4h8c2.5 0 4 2 4 4v3c0 3-2.5 6-8 6s-8-3-8-6v-3Z" />
-                    <path d="M7 6 6 3M17 6l1-3M9 13h.01M15 13h.01" />
-                  </svg>
+              {/* Verified Electronic Health Record Badge */}
+              <button
+                type="button"
+                onClick={() => setIsInspectorOpen(true)}
+                className="flex flex-col items-end gap-1 p-1.5 rounded-lg bg-bg-alt/90 border border-line hover:border-gold-600 transition-all cursor-pointer group/tag"
+                title="Inspect cryptographic certificate"
+              >
+                <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-pasture-800">
+                  <Fingerprint className="w-3.5 h-3.5 text-gold-600" />
+                  <span>RFID VERIFIED</span>
+                </div>
+                <span className="text-[9px] font-mono text-ink-soft">
+                  {animal.rfidStandard.split(" ")[0]}
+                </span>
+              </button>
+            </div>
+
+            {/* 2. Risk Score & Biosecurity Status */}
+            <div className="p-3 rounded-xl bg-bg-alt/80 border border-line-soft space-y-2">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <span className="text-ink-soft text-[11px]">CLINICAL RISK SCORE</span>
+                <span className="font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded text-[11px] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                  {animal.riskScore.rating} ({animal.riskScore.score} / 1.0)
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] text-ink-soft font-mono pt-1 border-t border-line-soft">
+                <span>CONTAGION EXPOSURE:</span>
+                <span className="text-pasture-900 font-semibold">{animal.riskScore.contagionStatus}</span>
+              </div>
+            </div>
+
+            {/* View Switcher: Clinical Summary vs Health Timeline */}
+            <div className="flex items-center gap-2 border-b border-line-soft pb-1">
+              <button
+                type="button"
+                onClick={() => setActiveTab("record")}
+                className={`pb-1 text-xs font-mono transition-all cursor-pointer ${
+                  activeTab === "record"
+                    ? "font-bold text-pasture-900 border-b-2 border-pasture-900"
+                    : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                Health Record &amp; Vax
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("timeline")}
+                className={`pb-1 text-xs font-mono transition-all cursor-pointer ${
+                  activeTab === "timeline"
+                    ? "font-bold text-pasture-900 border-b-2 border-pasture-900"
+                    : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                Health Timeline (3)
+              </button>
+            </div>
+
+            {activeTab === "record" ? (
+              <>
+                {/* 3. Vaccination Status Section */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-[11px] font-mono font-bold text-ink-soft">
+                    <span>VACCINATION STATUS (MANDATORY REGISTRY)</span>
+                    <span className="text-pasture-700">100% UP TO DATE</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
+                    {animal.vaxAudit.map((v) => (
+                      <div
+                        key={v.name}
+                        className="p-2 rounded-lg bg-white/80 border border-line-soft flex items-center justify-between shadow-2xs"
+                      >
+                        <div className="truncate">
+                          <strong className="block text-ink text-[11px] leading-tight truncate">
+                            {v.name.split(" ")[0]}
+                          </strong>
+                          <span className="text-[9px] text-ink-soft block">{v.date.split(" ")[1]} {v.date.split(" ")[2]}</span>
+                        </div>
+                        <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 ml-1">
+                          <Check className="w-2.5 h-2.5 stroke-[3]" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="text-sm space-y-0.5">
-                  <div>
-                    <span className="text-xs text-ink-soft mr-2">Species</span>
-                    <strong className="text-ink font-semibold">
-                      {animal.species} · {animal.breed}
-                    </strong>
+                {/* 4. Last Veterinary Inspection Section */}
+                <div className="p-3 rounded-xl bg-card border border-line space-y-1.5 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono uppercase font-bold text-pasture-700 flex items-center gap-1">
+                      <Stethoscope className="w-3 h-3 text-pasture-700" />
+                      <span>Last Veterinary Inspection</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-ink-soft">{animal.lastInspection.date}</span>
                   </div>
-                  <div>
-                    <span className="text-xs text-ink-soft mr-2">Owner</span>
-                    <span className="text-ink-soft">{animal.owner}, {animal.location.split(",")[0]}</span>
+
+                  <div className="text-[11.5px] font-bold text-pasture-900 leading-tight">
+                    {animal.lastInspection.officer}
                   </div>
-                  <div>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-pasture-900 bg-pasture-500/15 px-2.5 py-0.5 rounded-full mt-1 border border-pasture-500/20">
-                      <span className="w-1.5 h-1.5 rounded-full bg-pasture-500 animate-pulse" />
-                      {animal.healthStatus}
+                  <div className="text-[10px] font-mono text-ink-soft">
+                    {animal.lastInspection.regNumber} • {animal.lastInspection.station}
+                  </div>
+
+                  <div className="text-[11px] text-ink pt-1 border-t border-line-soft font-mono">
+                    <span className="text-emerald-800 font-semibold block">
+                      ✓ {animal.lastInspection.withdrawalStatus}
                     </span>
                   </div>
                 </div>
-              </div>
-
-              {/* Vitals Summary Strip */}
-              <div className="grid grid-cols-3 gap-2 py-2.5 px-3 bg-bg-alt/70 rounded-xl border border-line-soft font-mono text-[11px]">
-                <div>
-                  <span className="text-ink-soft text-[10px] block">TEMP</span>
-                  <strong className="text-ink">38.2°C</strong>
-                </div>
-                <div>
-                  <span className="text-ink-soft text-[10px] block">MILK YIELD</span>
-                  <strong className="text-pasture-900 font-bold">{animal.milkYield.avgDaily}</strong>
-                </div>
-                <div>
-                  <span className="text-ink-soft text-[10px] block">FAT / SNF</span>
-                  <strong className="text-ink">{animal.milkYield.fatPercentage.split(" ")[0]}</strong>
-                </div>
-              </div>
-
-              {/* Vaccination Lineage Row */}
-              <div className="flex gap-2 pt-3 border-t border-dashed border-line">
-                {animal.vaxAudit.map((v) => (
-                  <div key={v.name} className="flex-1 text-center font-mono text-[11px] text-ink-soft">
-                    <div className="w-5 h-5 rounded-full border border-pasture-500 flex items-center justify-center mx-auto mb-1 bg-pasture-500/10">
-                      <Check className="w-3 h-3 text-pasture-700 stroke-[2.5]" />
+              </>
+            ) : (
+              /* Health Timeline View */
+              <div className="space-y-2.5 py-1">
+                {animal.healthTimeline.map((ev, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2.5 rounded-xl bg-white/80 border border-line-soft text-xs font-mono space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <strong className="text-pasture-900 text-[11px]">{ev.title}</strong>
+                      <span className="text-[10px] text-ink-soft">{ev.date}</span>
                     </div>
-                    <span className="font-semibold text-ink">{v.name.split(" ")[0]}</span>
+                    <p className="text-[10.5px] text-ink-soft leading-snug">{ev.detail}</p>
                   </div>
                 ))}
               </div>
+            )}
 
-              {/* Vet Verified Stamp */}
-              <div className="vet-stamp absolute right-4 bottom-4 z-20">
-                Vet<br />verified
-              </div>
+            {/* Bottom Actions */}
+            <div className="pt-1 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setIsInspectorOpen(true)}
+                className="w-full py-2.5 px-4 rounded-xl bg-pasture-900 hover:bg-pasture-800 text-bg text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
+              >
+                <Fingerprint className="w-3.5 h-3.5 text-gold-500" />
+                <span>Open Full Health Record Certificate</span>
+              </button>
             </div>
-          ) : (
-            /* Card Face 2: EVMR Clinical History Mode */
-            <div className="relative z-10 space-y-3.5 animate-fade-in text-xs font-mono">
-              <div className="flex justify-between items-center pb-3 border-b border-line">
-                <span className="font-bold text-pasture-900 uppercase">EVMR Clinical History</span>
-                <span className="text-[10px] text-ink-soft">CRYPTOGRAPHIC LOG</span>
-              </div>
-
-              <div className="space-y-2 text-ink-soft">
-                <div className="p-2.5 rounded-lg bg-bg-alt/70 border border-line-soft">
-                  <span className="text-[10px] text-pasture-700 block font-semibold">LAST EXAM & AUDIT</span>
-                  <div className="text-ink font-semibold mt-0.5">{animal.vaxAudit[0]?.vet}</div>
-                  <div className="text-[10px] text-ink-soft">Physical exam clear • Rumination normal • Vitals in range</div>
-                </div>
-
-                <div className="p-2.5 rounded-lg bg-bg-alt/70 border border-line-soft">
-                  <span className="text-[10px] text-pasture-700 block font-semibold">WITHDRAWAL SAFETY (AMR)</span>
-                  <div className="text-emerald-800 font-semibold mt-0.5">0 Active Antibiotic Courses</div>
-                  <div className="text-[10px] text-ink-soft">Milk safe for dairy cooperative supply</div>
-                </div>
-              </div>
-
-              <div className="text-[10px] text-center text-ink-soft pt-1">
-                Click anywhere to flip back
-              </div>
-            </div>
-          )}
+          </div>
         </div>
 
-        {/* Action Button: Biometric Inspector Trigger */}
-        <div className="w-full mt-3.5 flex items-center justify-between gap-2">
-          <button
-            type="button"
-            onClick={() => setIsInspectorOpen(true)}
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-card hover:bg-white border border-line text-xs font-mono font-semibold text-pasture-900 shadow-xs hover:shadow-sm transition-all cursor-pointer"
-          >
-            <Fingerprint className="w-4 h-4 text-gold-600" />
-            <span>Inspect Biometric Tag &amp; Pedigree</span>
-          </button>
-        </div>
-
-        <div className="mt-2 text-[11px] text-ink-soft flex items-center gap-1.5">
+        {/* Minimal Under-card Prompt */}
+        <div className="mt-2.5 text-[11px] text-ink-soft font-mono flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-gold-600" />
-          <span>Hover to tilt in 3D · Click card to flip · Click Inspect for full certificate</span>
+          <span>Interactive Enterprise Passport • ICAR &amp; NDDB Standard</span>
         </div>
       </div>
 
