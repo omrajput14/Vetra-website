@@ -14,6 +14,10 @@ import { ExperienceVetraSection } from "@/components/sections/ExperienceVetraSec
 import { AiAssessmentDemoSection } from "@/components/sections/AiAssessmentDemoSection";
 import { HowVetraWorksSection } from "@/components/sections/HowVetraWorksSection";
 import { TrustAndCredibilitySection } from "@/components/sections/TrustAndCredibilitySection";
+import { UnderTheHoodSection } from "@/components/sections/UnderTheHoodSection";
+import { ImpactAndVisionSection } from "@/components/sections/ImpactAndVisionSection";
+import { TeamAndStorySection } from "@/components/sections/TeamAndStorySection";
+import { JoinEcosystemSection } from "@/components/sections/JoinEcosystemSection";
 import { DownloadAppModal } from "@/components/modals/DownloadAppModal";
 import { PaperGrain } from "@/components/ui/PaperGrain";
 import {
@@ -134,8 +138,18 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <a href="#how" className="text-ink-soft hover:text-pasture-900 transition-colors">
-                Workflow
+              <a href="#architecture" className="text-ink-soft hover:text-pasture-900 transition-colors">
+                Architecture
+              </a>
+            </li>
+            <li>
+              <a href="#vision" className="text-ink-soft hover:text-pasture-900 transition-colors">
+                Vision
+              </a>
+            </li>
+            <li>
+              <a href="#team" className="text-ink-soft hover:text-pasture-900 transition-colors">
+                Team
               </a>
             </li>
             <li>
@@ -156,73 +170,59 @@ export default function Home() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-ink hover:text-pasture-900"
-            aria-label="Toggle navigation"
+            className="md:hidden p-2.5 text-ink hover:text-pasture-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-pasture-900/20"
+            aria-expanded={mobileMenuOpen}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-controls="mobile-nav-menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </nav>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation Drawer & Backdrop */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-bg border-b border-line px-6 py-4 space-y-3 animate-fade-in">
-            <a
-              href="#product"
+          <>
+            <div
+              className="fixed inset-0 top-[65px] bg-black/30 backdrop-blur-xs z-40 md:hidden animate-fade-in"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
+              aria-hidden="true"
+            />
+            <div
+              id="mobile-nav-menu"
+              className="relative z-50 md:hidden bg-bg border-b border-line px-5 py-4 space-y-1 shadow-lg max-h-[calc(100vh-80px)] overflow-y-auto animate-fade-in"
             >
-              Platform Overview
-            </a>
-            <a
-              href="#passport"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              Digital Animal Passport
-            </a>
-            <a
-              href="#ai-scanner"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              AI Symptom Scanner
-            </a>
-            <a
-              href="#voice-triage"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              Voice Triage (Marathi/Hindi/English)
-            </a>
-            <a
-              href="#biosecurity"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              Biosecurity Outbreak Radar
-            </a>
-            <a
-              href="#how"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              How it works
-            </a>
-            <a
-              href="#credibility"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-ink-soft hover:text-pasture-900 font-medium border-b border-line-soft"
-            >
-              Trust &amp; Safety Governance
-            </a>
-            <a
-              href="#register-vet"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2.5 text-center text-xs font-semibold bg-pasture-900 text-bg rounded-full mt-2"
-            >
-              Register as vet
-            </a>
-          </div>
+              {[
+                { href: "#product", label: "Platform Overview" },
+                { href: "#passport", label: "Digital Animal Passport" },
+                { href: "#ai-scanner", label: "AI Symptom Scanner" },
+                { href: "#voice-triage", label: "Voice Triage (Marathi/Hindi/English)" },
+                { href: "#biosecurity", label: "Biosecurity Outbreak Radar" },
+                { href: "#architecture", label: "Under the Hood Architecture" },
+                { href: "#vision", label: "Our Vision & Roadmap" },
+                { href: "#team", label: "The Team Behind Vetra" },
+                { href: "#credibility", label: "Trust & Safety Governance" },
+                { href: "#contact", label: "Partnership & Inquiries" },
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center min-h-[44px] px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink-soft hover:text-pasture-900 hover:bg-bg-alt transition-colors"
+                >
+                  {item.label}
+                </a>
+              ))}
+              <div className="pt-2">
+                <a
+                  href="#register-vet"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center min-h-[44px] px-4 py-2.5 text-xs font-semibold bg-pasture-900 text-bg rounded-xl hover:bg-pasture-800 transition-colors shadow-xs"
+                >
+                  Register as Veterinarian
+                </a>
+              </div>
+            </div>
+          </>
         )}
       </header>
 
@@ -315,6 +315,15 @@ export default function Home() {
 
         {/* ---------- TRUST & CREDIBILITY GOVERNANCE ---------- */}
         <TrustAndCredibilitySection />
+
+        {/* ---------- SYSTEM ARCHITECTURE & ENGINEERING: HOW VETRA WORKS UNDER THE HOOD ---------- */}
+        <UnderTheHoodSection />
+
+        {/* ---------- OUR VISION & FUTURE ROADMAP ---------- */}
+        <ImpactAndVisionSection />
+
+        {/* ---------- THE TEAM BEHIND VETRA & WHY VETRA ---------- */}
+        <TeamAndStorySection />
 
         {/* ---------- DOWNLOAD / EARLY ACCESS & 3D PHONE ---------- */}
         <section className="py-20 sm:py-24 bg-pasture-900 text-bg relative overflow-hidden" id="download">
@@ -536,112 +545,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- CONTACT SECTION ---------- */}
-        <section className="py-20 sm:py-24 bg-bg-alt" id="contact">
-          <div className="max-w-[1180px] mx-auto px-6 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Left: Contact Form */}
-            <div className="lg:col-span-7 bg-card border border-line rounded-2xl p-7 sm:p-9 shadow-tactile">
-              <span className="eyebrow-tag">Get in touch</span>
-              <h2 className="font-serif text-2xl sm:text-3xl text-pasture-900 font-semibold mt-3 mb-5">
-                Talk to us
-              </h2>
-
-              {contactSubmitted ? (
-                <div className="p-4 rounded-xl bg-pasture-500/15 border border-pasture-500/30 text-pasture-800 text-sm font-semibold">
-                  ✓ Message received — our team will get back to you shortly.
-                </div>
-              ) : (
-                <form onSubmit={handleContactSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-ink-soft">Name</label>
-                      <input
-                        type="text"
-                        required
-                        value={contactData.name}
-                        onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
-                        placeholder="Your name"
-                        className="w-full px-3.5 py-2.5 text-sm bg-white border border-line rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-600"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-ink-soft">Email</label>
-                      <input
-                        type="email"
-                        required
-                        value={contactData.email}
-                        onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
-                        placeholder="you@domain.com"
-                        className="w-full px-3.5 py-2.5 text-sm bg-white border border-line rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-600"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-ink-soft">Message</label>
-                    <textarea
-                      rows={4}
-                      required
-                      value={contactData.message}
-                      onChange={(e) => setContactData({ ...contactData, message: e.target.value })}
-                      placeholder="How can we help your farm, cooperative, or clinical practice?"
-                      className="w-full px-3.5 py-2.5 text-sm bg-white border border-line rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-600 resize-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="px-7 py-3 rounded-full font-semibold text-sm bg-gold-500 hover:bg-gold-600 text-pasture-900 transition-all cursor-pointer shadow-sm"
-                  >
-                    Send message
-                  </button>
-                </form>
-              )}
-            </div>
-
-            {/* Right: Contact Information Cards */}
-            <div className="lg:col-span-5 flex flex-col justify-center space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-pasture-900 flex items-center justify-center text-bg shrink-0 shadow-xs">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs text-ink-soft font-mono uppercase">Email</div>
-                  <div className="text-base font-semibold text-pasture-900 mt-0.5">
-                    <a href="mailto:hello@vetra.co.in" className="hover:underline">
-                      hello@vetra.co.in
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-pasture-900 flex items-center justify-center text-bg shrink-0 shadow-xs">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs text-ink-soft font-mono uppercase">Phone / WhatsApp</div>
-                  <div className="text-base font-semibold text-pasture-900 mt-0.5">
-                    <a href="https://wa.me/919021961058" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      +91 9021961058
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-pasture-900 flex items-center justify-center text-bg shrink-0 shadow-xs">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs text-ink-soft font-mono uppercase">Location</div>
-                  <div className="text-base font-semibold text-pasture-900 mt-0.5">Maharashtra, India</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* ---------- JOIN THE VETRA ECOSYSTEM & CONTACT ---------- */}
+        <JoinEcosystemSection />
       </main>
 
       {/* ---------- FOOTER ---------- */}

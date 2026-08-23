@@ -84,7 +84,7 @@ export const PlatformArchitectureSection: React.FC = () => {
         </div>
 
         {/* Three Product Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
           {/* Card 1: Digital Animal Passport */}
           <div className="bg-card border border-line rounded-2xl p-7 sm:p-8 space-y-5 tactile-card hover:bg-white transition-all shadow-tactile flex flex-col justify-between">
             <div className="space-y-4">
