@@ -13,6 +13,7 @@ import {
   Layers,
   ArrowRight,
   Compass,
+  Cloud,
 } from "lucide-react";
 
 export const TeamAndStorySection: React.FC = () => {
@@ -26,15 +27,23 @@ export const TeamAndStorySection: React.FC = () => {
       initials: "OR",
     },
     {
-      name: "Dhiraj",
-      role: "Research & Operations Lead",
-      badge: "Research & Operations",
-      desc: "Spearheading agricultural field research, rural workflow analysis, ground operational dynamics, and streamlining veterinary field integration.",
-      icon: <Code2 className="w-5 h-5 text-emerald-800" />,
-      initials: "DP",
+      name: "Soham Pawar",
+      role: "Full Stack Developer",
+      badge: "Full Stack & Government GIS",
+      desc: "Architecting the national disease surveillance command center, spatial-temporal epidemiological outbreak mapping, and responsive full-stack systems.",
+      icon: <Layers className="w-5 h-5 text-indigo-700" />,
+      initials: "SP",
     },
     {
-      name: "Mrunmai",
+      name: "Khushi Shinde",
+      role: "Cloud Developer",
+      badge: "Cloud Dev & Infrastructure",
+      desc: "Designing scalable AWS cloud architecture, automated Terraform infrastructure, containerized microservices, and high-availability cloud deployments.",
+      icon: <Cloud className="w-5 h-5 text-sky-700" />,
+      initials: "KS",
+    },
+    {
+      name: "Mrunmai Joshi",
       role: "Product Research & Communication Lead",
       badge: "Research & Communication",
       desc: "Driving product domain research, multilingual farmer communication strategy, clinical requirements gathering, and community outreach.",
@@ -42,12 +51,20 @@ export const TeamAndStorySection: React.FC = () => {
       initials: "MJ",
     },
     {
-      name: "Prachi",
+      name: "Prachi Pawar",
       role: "Product Presentation & Design Lead",
       badge: "Presentation & Design",
       desc: "Leading product presentation, user interface design systems, visual storytelling, and crafting intuitive healthcare experiences for farmers and veterinarians.",
       icon: <Sparkles className="w-5 h-5 text-rose-700" />,
       initials: "PP",
+    },
+    {
+      name: "Dhiraj Pawar",
+      role: "Research & Operations Lead",
+      badge: "Research & Operations",
+      desc: "Spearheading agricultural field research, rural workflow analysis, ground operational dynamics, and streamlining veterinary field integration.",
+      icon: <Code2 className="w-5 h-5 text-emerald-800" />,
+      initials: "DP",
     },
   ];
 
@@ -132,7 +149,7 @@ export const TeamAndStorySection: React.FC = () => {
         </div>
 
         {/* Team Profile Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
           {teamMembers.map((member, idx) => (
             <div
               key={idx}
