@@ -64,6 +64,18 @@ const SCENARIOS: OutbreakScenario[] = [
     spokenAdvisory:
       "Precautionary Livestock Health Advisory: Hemorrhagic Septicemia alert in Ahmednagar Sector. 210 registered holdings advised to verify adjuvant vaccination status immediately.",
   },
+  {
+    id: "bq",
+    name: "Black Quarter (BQ)",
+    location: "Kolhapur Dairy Basin",
+    distanceKm: 12,
+    farmsAlerted: 168,
+    severity: "CRITICAL",
+    vaccineBooster: "Polyvalent Clostridial Ring Vaccine",
+    status: "Containment Ring Enforced",
+    spokenAdvisory:
+      "Vetra Biosecurity Emergency Broadcast: Black Quarter confirmed in Kolhapur Dairy Basin. 12 kilometer immediate containment ring enforced across 168 cattle holdings. Polyvalent clostridial ring vaccination dispatched.",
+  },
 ];
 
 export const BiosecurityRadar3D: React.FC = () => {
@@ -178,10 +190,15 @@ export const BiosecurityRadar3D: React.FC = () => {
 
           {/* Scenario Picker */}
           <div className="space-y-2 pt-2">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-bg/60 block">
-              Simulate Outbreak Event:
-            </span>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-bg/60 block">
+                Simulate Epidemiological Outbreak:
+              </span>
+              <span className="font-mono text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+                PostGIS ST_DWithin Active
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {SCENARIOS.map((scen) => (
                 <button
                   key={scen.id}
@@ -192,7 +209,7 @@ export const BiosecurityRadar3D: React.FC = () => {
                       : "bg-pasture-800/80 text-bg/90 border-pasture-600 hover:bg-pasture-700"
                   }`}
                 >
-                  <div className="truncate">{scen.name.split("(")[0]}</div>
+                  <div className="truncate font-bold">{scen.name.split("(")[0]}</div>
                   <div className="text-[10px] opacity-80">{scen.distanceKm} km radius</div>
                 </button>
               ))}
@@ -212,6 +229,10 @@ export const BiosecurityRadar3D: React.FC = () => {
             <div className="flex justify-between items-center text-bg/70">
               <span>MOBILIZED BOOSTER:</span>
               <span className="text-emerald-300 font-bold">{scenario.vaccineBooster}</span>
+            </div>
+            <div className="flex justify-between items-center text-bg/70 pt-1 border-t border-white/10">
+              <span>CONTAINMENT PROTOCOL:</span>
+              <span className="text-rose-400 font-bold">{scenario.status}</span>
             </div>
           </div>
         </div>
