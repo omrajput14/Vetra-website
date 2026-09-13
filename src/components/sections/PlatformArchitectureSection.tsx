@@ -12,6 +12,12 @@ import {
   Fingerprint,
   Stethoscope,
   Network,
+  Smartphone,
+  Building2,
+  CheckCircle2,
+  Activity,
+  MapPin,
+  Users,
 } from "lucide-react";
 
 export const PlatformArchitectureSection: React.FC = () => {
@@ -196,6 +202,174 @@ export const PlatformArchitectureSection: React.FC = () => {
                   <span>{item}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Three Dedicated Stakeholder Portals / Applications */}
+        <div className="mt-16 pt-12 border-t border-dashed border-line">
+          <div className="max-w-[720px] mb-10 text-left">
+            <span className="eyebrow-tag">3-TIER APPLICATION ECOSYSTEM</span>
+            <h3 className="font-serif text-2xl sm:text-3xl lg:text-[32px] text-pasture-900 font-semibold mt-2.5 mb-3 leading-tight tracking-tight">
+              Purpose-Built Interfaces for Every Healthcare Stakeholder
+            </h3>
+            <p className="text-sm sm:text-base text-ink-soft leading-relaxed">
+              Vetra provides dedicated, role-authenticated applications uniting farmers in remote sheds, traveling clinical veterinarians, and government biosecurity officers into one synchronized network.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Portal 1: Farmer Mobile App */}
+            <div className="bg-card border border-line rounded-2xl p-6 sm:p-7 space-y-4 tactile-card hover:bg-white transition-all shadow-tactile flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-11 h-11 rounded-xl bg-pasture-900 text-bg flex items-center justify-center shadow-xs">
+                    <Smartphone className="w-5 h-5 stroke-[1.8]" />
+                  </div>
+                  <span className="font-mono text-[9.5px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                    Farmer Client
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-pasture-900 tracking-tight">
+                    Farmer Mobile App
+                  </h4>
+                  <span className="text-xs font-mono text-pasture-700 font-semibold block mt-0.5">
+                    Offline-First Flutter Client
+                  </span>
+                </div>
+
+                <p className="text-xs sm:text-[13px] text-ink-soft leading-relaxed">
+                  Engineered for rural connectivity with Marathi, Hindi, and English voice triage, 10 quick clinical symptom chips, digital QR animal passport, and direct emergency vet calling.
+                </p>
+
+                <div className="space-y-2 pt-2 border-t border-dashed border-line-soft font-mono text-[11px] text-pasture-900">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <span>Multilingual voice symptom triage</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <span>Zero-internet local sync buffer</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <span>12-digit RFID QR passport wallet</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <span>One-tap emergency vet hotline</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-dashed border-line-soft font-mono text-[10px] text-ink-soft flex items-center justify-between">
+                <span>Flutter 3.29 • Android / iOS</span>
+                <span className="font-semibold text-pasture-700">Production Build</span>
+              </div>
+            </div>
+
+            {/* Portal 2: Veterinarian Clinical App */}
+            <div className="bg-card border border-line rounded-2xl p-6 sm:p-7 space-y-4 tactile-card hover:bg-white transition-all shadow-tactile flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-11 h-11 rounded-xl bg-pasture-900 text-bg flex items-center justify-center shadow-xs">
+                    <Stethoscope className="w-5 h-5 stroke-[1.8]" />
+                  </div>
+                  <span className="font-mono text-[9.5px] font-bold text-sky-800 bg-sky-100 px-2.5 py-0.5 rounded-full border border-sky-200">
+                    Clinical Suite
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-pasture-900 tracking-tight">
+                    Veterinarian Clinical App
+                  </h4>
+                  <span className="text-xs font-mono text-pasture-700 font-semibold block mt-0.5">
+                    EVMR &amp; Digital Prescribing
+                  </span>
+                </div>
+
+                <p className="text-xs sm:text-[13px] text-ink-soft leading-relaxed">
+                  Streamlines physical field visits with 90-second EVMR charting, verified VCI prescribing credentials, AI differential triage assistance, and en-route emergency visit dispatch.
+                </p>
+
+                <div className="space-y-2 pt-2 border-t border-dashed border-line-soft font-mono text-[11px] text-pasture-900">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-700 shrink-0" />
+                    <span>90-second EVMR mobile charting</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-700 shrink-0" />
+                    <span>VCI credential verification badge</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-700 shrink-0" />
+                    <span>AI differential diagnosis assistant</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-700 shrink-0" />
+                    <span>En-route live appointment navigation</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-dashed border-line-soft font-mono text-[10px] text-ink-soft flex items-center justify-between">
+                <span>VCI-Verified • Tablet &amp; Mobile</span>
+                <span className="font-semibold text-pasture-700">Clinical Active</span>
+              </div>
+            </div>
+
+            {/* Portal 3: Government Surveillance & Outbreak Radar Command Center */}
+            <div className="bg-card border border-line rounded-2xl p-6 sm:p-7 space-y-4 tactile-card hover:bg-white transition-all shadow-tactile flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-11 h-11 rounded-xl bg-pasture-900 text-bg flex items-center justify-center shadow-xs">
+                    <Building2 className="w-5 h-5 stroke-[1.8]" />
+                  </div>
+                  <span className="font-mono text-[9.5px] font-bold text-rose-800 bg-rose-100 px-2.5 py-0.5 rounded-full border border-rose-200">
+                    Command Center
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-pasture-900 tracking-tight">
+                    Government Outbreak Radar
+                  </h4>
+                  <span className="text-xs font-mono text-pasture-700 font-semibold block mt-0.5">
+                    Web GIS Surveillance Center
+                  </span>
+                </div>
+
+                <p className="text-xs sm:text-[13px] text-ink-soft leading-relaxed">
+                  Real-time epidemiological dashboard for District Animal Husbandry Officers, running PostGIS spatial-temporal cluster analysis, 10–25 km ring containment, and quarantine enforcement.
+                </p>
+
+                <div className="space-y-2 pt-2 border-t border-dashed border-line-soft font-mono text-[11px] text-pasture-900">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-700 shrink-0" />
+                    <span>PostGIS spatial-temporal clustering</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-700 shrink-0" />
+                    <span>10–25 km dynamic ring containment</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-700 shrink-0" />
+                    <span>Automated ring-vaccination notices</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-700 shrink-0" />
+                    <span>District mortality spike alarms</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-dashed border-line-soft font-mono text-[10px] text-ink-soft flex items-center justify-between">
+                <span>Web GIS • PostGIS Spatial Engine</span>
+                <span className="font-semibold text-pasture-700">Surveillance Ready</span>
+              </div>
             </div>
           </div>
         </div>
