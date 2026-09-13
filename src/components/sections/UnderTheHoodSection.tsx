@@ -402,6 +402,45 @@ export const UnderTheHoodSection: React.FC = () => {
           </div>
         </div>
 
+        {/* Unified System Architecture Diagram Viewer */}
+        <div className="mt-16 pt-12 border-t border-dashed border-line">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <span className="eyebrow-tag !mb-1">FULL-SYSTEM CLOUD TOPOLOGY</span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-pasture-900">
+                End-to-End System Architecture
+              </h3>
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed mt-1">
+                Visualizing the complete 5-layer interaction between rural edge mobile apps, resilient API gateway, Spring Boot microservices, PostGIS spatial clustering, and multi-AZ cloud infrastructure.
+              </p>
+            </div>
+            <a
+              href="/system_architecture.svg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card border border-line hover:border-pasture-900 font-mono text-xs text-pasture-900 font-semibold transition-all shadow-xs shrink-0 self-start sm:self-auto"
+            >
+              <span>View Full Vector SVG</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <div className="bg-card border border-line rounded-3xl p-4 sm:p-6 shadow-tactile overflow-hidden tactile-card space-y-4">
+            <div className="relative w-full rounded-2xl overflow-hidden border border-line-soft bg-white p-2">
+              <img
+                src="/system_architecture.svg"
+                alt="Vetra Enterprise Platform Architecture"
+                className="w-full h-auto object-contain max-h-[720px] mx-auto select-none"
+                loading="lazy"
+              />
+            </div>
+            <div className="pt-3 border-t border-dashed border-line-soft font-mono text-[11px] text-ink-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <span>Architecture Tiers: 01 Client Apps • 02 Gateway &amp; Auth • 03 Domain Services • 04 Spatial Data Tier • 05 AWS Cloud &amp; SRE</span>
+              <span className="text-pasture-700 font-semibold">Spring Boot 3.4.3 • PostGIS 17 • ECS Fargate</span>
+            </div>
+          </div>
+        </div>
+
         {/* 4. Product Roadmap & Phasing Note */}
         <div className="mt-12 p-6 rounded-2xl bg-bg-alt border border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs text-ink-soft">
           <div className="flex items-center gap-3">
