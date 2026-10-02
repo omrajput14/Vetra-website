@@ -1,0 +1,6 @@
+# Vetra Biosecurity & Livestock Health Platform
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://vetra.co.in/sitemap.xml
