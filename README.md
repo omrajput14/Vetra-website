@@ -12,7 +12,7 @@
 
 *Digital animal health records, trilingual voice reporting, and spatial epidemiological containment for India's dairy farmers, veterinarians, and cooperatives.*
 
-[Live Website](https://vetra.co.in) • [Interactive Demos](https://vetra.co.in/demo) • [Android App Release](/downloads/Vetra-v1.0-production.apk)
+[Live Website](https://vetra.co.in) • [Android App Release](/downloads/Vetra-v1.0-production.apk)
 
 ---
 
@@ -41,7 +41,6 @@ vetra-website/
 ├── src/
 │   ├── app/
 │   │   ├── api/tts/route.ts       # ElevenLabs Multilingual V2 audio synthesis endpoint
-│   │   ├── demo/page.tsx          # Dedicated interactive clinical simulator route
 │   │   ├── globals.css            # Tactile styling, typography variables, scanlines
 │   │   ├── layout.tsx             # Root layout with Lexend, Inter, Devanagari typography
 │   │   └── page.tsx               # Editorial brand homepage
@@ -129,7 +128,7 @@ vetra-website/
    # or
    npm run dev
    ```
-   Open [http://localhost:3000](http://localhost:3000) to view the homepage, or [http://localhost:3000/demo](http://localhost:3000/demo) for interactive simulators.
+   Open [http://localhost:3000](http://localhost:3000) to view the homepage.
 
 ---
 

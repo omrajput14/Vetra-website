@@ -3,7 +3,7 @@ import Link from "next/link";
 import { EMAIL, PHONE, mail, whatsapp } from "./links";
 
 const COLS = [
-  { title: "Product", links: [["How it works", "/#how"], ["Try the demos", "/demo"], ["Android app", "/downloads/Vetra-v1.0-production.apk"]] },
+  { title: "Product", links: [["How it works", "/#how"], ["Android app", "/downloads/Vetra-v1.0-production.apk"]] },
   { title: "For", links: [["Vets", "/#vets"], ["Cooperatives", "/#cooperatives"], ["Investors", "/#investors"]] },
   { title: "Company", links: [["Team", "/#team"], ["FAQ", "/#faq"], ["Contact", "/#contact"]] },
 ];
