@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # scratch
 /scratch/
+
+# build and IDE caches
+*.tsbuildinfo
+.claude/
+
