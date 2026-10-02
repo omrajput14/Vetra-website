@@ -2,117 +2,86 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-:root {
-  --bg: #F1EEE1;
-  --bg-alt: #EAE5D4;
-  --ink: #211F16;
-  --ink-soft: #4B4939;
-  --pasture-900: #1E3324;
-  --pasture-700: #2C4A34;
-  --pasture-500: #3F6B49;
-  --clay-700: #7A4E2C;
-  --gold-500: #D2A23A;
-  --gold-600: #B98726;
-  --alert-600: #AE402C;
-  --card: #FBF8EF;
-  --line: rgba(33, 31, 22, 0.14);
-  --line-soft: rgba(33, 31, 22, 0.08);
-  --shadow: 0 20px 50px -25px rgba(30, 51, 36, 0.35);
-}
-
 @layer base {
-  * {
-    box-sizing: border-box;
+  html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
+    background: #F4EEE5;
+    color: #141414;
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 17px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: var(--font-display), system-ui, sans-serif;
     font-weight: 600;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.03em;
+  }
+
+  :focus-visible {
+    outline: 3px solid #94E130;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* 3D Perspective & Scene Setup */
-.perspective-container {
-  perspective: 1400px;
-  perspective-origin: center center;
+/* Map dots fade in one by one on load. */
+@keyframes dot-in {
+  from { opacity: 0; }
+}
+.dot-in {
+  animation: dot-in 0.8s ease-out both;
 }
 
-.preserve-3d {
-  transform-style: preserve-3d;
+/* Infinite ear-tag conveyor. Content is duplicated, so -50% loops seamlessly. */
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 60s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+.fade-edges {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
-/* Archival Diagonal Texture */
-.bg-diagonal-lines {
-  background: 
-    repeating-linear-gradient(115deg, transparent 0 62px, rgba(33, 31, 22, 0.05) 62px 63px),
-    #F1EEE1;
-}
+/* ---- Styles used by the interactive demos on /demo ---- */
 
-.bg-dot-matrix {
-  background-size: 8px 8px;
-  background-image: radial-gradient(rgba(33, 31, 22, 0.12) 1.2px, transparent 1.2px);
-}
-
-/* Tactile Materiality Card Styles */
 .tactile-card {
-  background: #FBF8EF;
-  border: 1px solid rgba(33, 31, 22, 0.14);
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 31, 23, 0.12);
   border-radius: 18px;
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 20px 50px -25px rgba(30, 51, 36, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 20px 50px -30px rgba(11, 61, 36, 0.30);
 }
 
-.tactile-card:hover {
-  border-color: rgba(33, 31, 22, 0.22);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 25px 60px -20px rgba(30, 51, 36, 0.42);
-}
-
-/* Tactile Embossed Gold Button */
 .btn-gold-tactile {
-  background: #D2A23A;
-  color: #1E3324;
+  background: #F2C200;
+  color: #0F1F17;
   font-weight: 600;
   border-radius: 100px;
-  border: 1px solid #B98726;
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 4px 12px -2px rgba(185, 135, 38, 0.4);
-  transition: all 0.15s ease;
+  border: 1px solid #D9AE00;
+  transition: background 0.15s ease;
 }
 
 .btn-gold-tactile:hover {
-  background: #B98726;
-  transform: translateY(-1px);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 6px 16px -2px rgba(185, 135, 38, 0.5);
-}
-
-.btn-gold-tactile:active {
-  transform: translateY(0px);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-/* Holographic Passport Card Styles */
-.passport-3d {
-  transform-style: preserve-3d;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+  background: #F7D54A;
 }
 
 .passport-scanline {
@@ -120,7 +89,7 @@
   left: 0;
   right: 0;
   height: 40%;
-  background: linear-gradient(180deg, rgba(63, 107, 73, 0) 0%, rgba(63, 107, 73, 0.22) 50%, rgba(63, 107, 73, 0) 100%);
+  background: linear-gradient(180deg, rgba(42, 125, 75, 0) 0%, rgba(42, 125, 75, 0.22) 50%, rgba(42, 125, 75, 0) 100%);
   top: -40%;
   pointer-events: none;
   animation: scan 4.5s ease-in-out infinite;
@@ -132,150 +101,8 @@
   100% { top: 100%; }
 }
 
-/* Circular Vet Verified Stamp */
-.vet-stamp {
-  width: 86px;
-  height: 86px;
-  border-radius: 50%;
-  border: 1.5px dashed #B98726;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(-14deg);
-  color: #B98726;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-align: center;
-  text-transform: uppercase;
-  background: rgba(251, 248, 239, 0.85);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(185, 135, 38, 0.15), inset 0 0 8px rgba(185, 135, 38, 0.08);
-  user-select: none;
-}
-
-/* Eyebrow Label with Hairline */
 .eyebrow-tag {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #2C4A34;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.eyebrow-tag::before {
-  content: "";
-  width: 16px;
-  height: 1px;
-  background: #B98726;
-  display: inline-block;
-}
-
-/* Letterpress Monospace Badges */
-.badge-letterpress {
-  font-family: 'IBM Plex Mono', monospace;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(33, 31, 22, 0.12);
-  background: rgba(241, 238, 225, 0.6);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
-}
-
-::-webkit-scrollbar-track {
-  background: #EAE5D4;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #B4AFA0;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #2C4A34;
-}
-
-/* 3D Phone Shell */
-.phone-shell-3d {
-  background: #0F1A12;
-  border: 9px solid #0A130D;
-  border-radius: 40px;
-  box-shadow: 0 25px 60px -15px rgba(15, 26, 18, 0.7), inset 0 0 10px rgba(0,0,0,0.8);
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease;
-}
-
-/* ==========================================================================
-   Veterinary Clinical Report Print Styles (@media print)
-   ========================================================================== */
-@media print {
-  html, body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 11pt !important;
-    line-height: 1.4 !important;
-    overflow: visible !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Hide entire page structure */
-  header,
-  nav,
-  main,
-  footer,
-  .no-print,
-  .passport-scanline,
-  .paper-grain,
-  button {
-    display: none !important;
-  }
-
-  /* Only display the dedicated printable report container */
-  #vetra-printable-report {
-    display: block !important;
-    position: relative !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-    color: #111827 !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  /* Ensure print typography and borders are crisp black/gray */
-  #vetra-printable-report h1,
-  #vetra-printable-report h2,
-  #vetra-printable-report h3,
-  #vetra-printable-report h4 {
-    color: #000000 !important;
-  }
-
-  #vetra-printable-report .border,
-  #vetra-printable-report .border-line,
-  #vetra-printable-report .border-line-soft {
-    border-color: #d1d5db !important;
-  }
-
-  #vetra-printable-report .bg-bg-alt,
-  #vetra-printable-report .bg-card,
-  #vetra-printable-report .bg-bg {
-    background-color: #f9fafb !important;
-  }
-
-  @page {
-    size: A4 portrait;
-    margin: 12mm 15mm;
-  }
+  font-size: 14px;
+  font-weight: 600;
+  color: #145A35;
 }
