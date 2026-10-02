@@ -36,46 +36,33 @@ In dairy farming communities across Maharashtra and rural India, millions of sic
 vetra-website/
 ├── public/
 │   ├── branding/                  # Brand vectors, official emblem, and high-res logos
-│   ├── downloads/                 # Production Android APK release
-│   └── system_architecture.svg    # 5-tier full-system cloud architecture diagram
+│   └── downloads/                 # Production Android APK release
 ├── src/
 │   ├── app/
-│   │   ├── api/tts/route.ts       # ElevenLabs Multilingual V2 audio synthesis endpoint
 │   │   ├── globals.css            # Tactile styling, typography variables, scanlines
 │   │   ├── layout.tsx             # Root layout with Lexend, Inter, Devanagari typography
 │   │   └── page.tsx               # Editorial brand homepage
-│   ├── components/
-│   │   ├── app/                   # Pixel-perfect Flutter & web command center mockups
-│   │   │   ├── Command.tsx        # District command dashboard browser shell
-│   │   │   ├── Device.tsx         # Android device container (360x792dp)
-│   │   │   ├── RadiusScene.tsx    # Interactive 15 km ripple containment simulation
-│   │   │   └── screens.tsx        # High-fidelity Flutter app screen rebuilds
-│   │   ├── home/                  # Brand homepage sections
-│   │   │   ├── Audiences.tsx      # Deep-linkable tabs (Vets, Cooperatives, Investors)
-│   │   │   ├── Contact.tsx        # 2D physics-driven interactive sticker canvas (Matter.js)
-│   │   │   ├── FieldReady.tsx     # Offline-first & rural resilience showcase
-│   │   │   ├── Footer.tsx         # Site navigation & institutional footer
-│   │   │   ├── Hero.tsx           # 3D interactive hero with real-time cursor tilt
-│   │   │   ├── OneRecord.tsx      # EVMR digital passport & medical history cards
-│   │   │   ├── Statement.tsx      # Mission thesis & clinical urgency
-│   │   │   ├── Story.tsx          # 6-chapter field walkthrough from cow to cure
-│   │   │   ├── Team.tsx           # Team roster with animated swinging ear tags
-│   │   │   └── VetsDecide.tsx     # Human-in-the-loop clinical governance
-│   │   ├── interactive/
-│   │   │   ├── BiosecurityRadar3D.tsx  # PostGIS ST_DWithin outbreak containment radar
-│   │   │   └── VoiceTriageSimulator.tsx # Trilingual voice triage with ElevenLabs TTS
-│   │   └── sections/
-│   │       ├── AiAssessmentDemoSection.tsx # Multimodal lesion triage case studies
-│   │       ├── DigitalPassportSection.tsx  # Interactive biometric cattle passport
-│   │       └── UnderTheHoodSection.tsx     # 5-tier cloud topology & tech specs
-│   └── lib/
-│       ├── useElevenLabsAudio.ts  # Audio playback hook with HTML5 speech synthesis fallback
-│       └── voiceScenarios.ts      # Clinical NER entity dictionaries for mr, hi, en
+│   └── components/
+│       ├── app/                   # Pixel-perfect Flutter & web command center mockups
+│       │   ├── Command.tsx        # District command dashboard browser shell
+│       │   ├── Device.tsx         # Android device container (360x792dp)
+│       │   ├── RadiusScene.tsx    # Interactive 15 km ripple containment simulation
+│       │   ├── icons.tsx          # Custom iconography
+│       │   └── screens.tsx        # High-fidelity Flutter app screen rebuilds
+│       └── home/                  # Brand homepage sections
+│           ├── Audiences.tsx      # Deep-linkable tabs (Vets, Cooperatives, Investors)
+│           ├── Contact.tsx        # 2D physics-driven interactive sticker canvas (Matter.js)
+│           ├── FieldReady.tsx     # Offline-first & rural resilience showcase
+│           ├── Footer.tsx         # Site navigation & institutional footer
+│           ├── Hero.tsx           # 3D interactive hero with real-time cursor tilt
+│           ├── OneRecord.tsx      # EVMR digital passport & medical history cards
+│           ├── Statement.tsx      # Mission thesis & clinical urgency
+│           ├── Story.tsx          # 6-chapter field walkthrough from cow to cure
+│           ├── Team.tsx           # Team roster with animated swinging ear tags
+│           ├── VetsDecide.tsx     # Human-in-the-loop clinical governance
+│           └── links.ts           # Verified contact links and helpers
 └── tests/                         # Node.js native TypeScript test suite
-    ├── biosecurityScenarios.test.ts # Outbreak radar perimeter & severity tests
-    ├── links.test.ts              # WhatsApp & mailto deep link generation tests
-    ├── ttsApi.test.ts             # API route payload & fallback handling tests
-    └── voiceScenarios.test.ts     # Trilingual clinical metadata contract tests
+    └── links.test.ts              # WhatsApp & mailto deep link generation tests
 ```
 
 ---
