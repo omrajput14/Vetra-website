@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   Layers,
   Cpu,
@@ -117,46 +118,60 @@ export const UnderTheHoodSection: React.FC = () => {
 
   const techStack = [
     {
-      category: "Mobile Application",
+      category: "Mobile Client Tier",
       icon: <Smartphone className="w-4 h-4 text-emerald-700" />,
-      title: "Flutter & Dart",
-      specs: "Flutter 3.x, Dart 3.x, Material 3, Riverpod 2.x, Dio HTTP, GoRouter, Offline local cache",
-      status: "Implemented",
+      title: "Flutter 3.29 & Dart",
+      specs: "Material 3, Riverpod 2.x, Dio HTTP, GoRouter, Offline SQLite sync, QR generator/scanner",
+      status: "Production Ready",
     },
     {
-      category: "Web Platform",
+      category: "Web Platform & GIS",
       icon: <Code2 className="w-4 h-4 text-sky-700" />,
-      title: "Next.js 14 & React",
-      specs: "App Router, TypeScript, Tailwind CSS, Server-Side API Proxying, SVG Canvas rendering",
-      status: "Implemented",
+      title: "Next.js 14 & Web GIS",
+      specs: "App Router, TypeScript, Tailwind CSS, Outbreak Radar mapping engine, SVG canvas rendering",
+      status: "Production Ready",
     },
     {
-      category: "AI & Voice Engine",
+      category: "Multi-Agent AI Gateway",
       icon: <Sparkles className="w-4 h-4 text-amber-700" />,
-      title: "ElevenLabs & Vision NLP",
-      specs: "ElevenLabs Multilingual V2, Devanagari Phonetics, Clinical NER extraction, Vision pattern matching",
-      status: "Implemented / Integrated",
+      title: "Gemini 1.5 & DeepSeek-V3",
+      specs: "Multi-agent circuit breakers, Clinical Uncertainty Scoring, Devanagari Voice STT/TTS (mr, hi, en)",
+      status: "Operational",
     },
     {
-      category: "Backend API Layer",
+      category: "Backend Service Layer",
       icon: <Server className="w-4 h-4 text-purple-700" />,
-      title: "Spring Boot 3.2.0 (JVM)",
-      specs: "REST APIs (/api/v1), Role-Based JWT Security, Interceptor validation, DTO serialization",
-      status: "Implemented",
+      title: "Spring Boot 3.4.3 (Java 21)",
+      specs: "REST APIs (/api/v1), Virtual Threads, Stateless JWT RBAC, Flyway migrations, 307 backend tests",
+      status: "Production Ready",
     },
     {
-      category: "Database & Cache",
+      category: "Database & Spatial Engine",
       icon: <Database className="w-4 h-4 text-blue-700" />,
-      title: "PostgreSQL & Redis",
-      specs: "Amazon RDS PostgreSQL for EVMR & Passports, ElastiCache Redis for caching & rate limiting",
-      status: "Configured Staging",
+      title: "PostgreSQL 17 + PostGIS",
+      specs: "Spatial-temporal clustering, Haversine bounding boxes, Redis 7.4 cluster caching & invalidation",
+      status: "Production Ready",
     },
     {
-      category: "Cloud Infrastructure",
+      category: "Cloud Infrastructure & IaC",
       icon: <Cloud className="w-4 h-4 text-rose-700" />,
-      title: "AWS Multi-AZ (ap-south-1)",
-      specs: "ECS Fargate containers, Application Load Balancer, TLS 1.3 encryption, CloudWatch monitoring",
-      status: "Configured Staging",
+      title: "AWS Multi-AZ & Terraform",
+      specs: "Terraform IaC (Stages 14.1–14.11), ECS Fargate Auto-Scaling, ALB ACM TLS 1.3, GitHub OIDC",
+      status: "Verified Staging",
+    },
+    {
+      category: "Observability & Telemetry",
+      icon: <Activity className="w-4 h-4 text-teal-700" />,
+      title: "OpenTelemetry & Grafana",
+      specs: "Distributed tracing (Tempo), Prometheus alerting & SLOs, CloudWatch log aggregation",
+      status: "Telemetry Active",
+    },
+    {
+      category: "National Standards",
+      icon: <ShieldCheck className="w-4 h-4 text-gold-600" />,
+      title: "Bharat Pashudhan & 1962",
+      specs: "12-digit RFID QR standard (NDDB/INAPH interoperable), VCI credential verification, 1962 helpline",
+      status: "Standards Aligned",
     },
   ];
 
@@ -349,7 +364,7 @@ export const UnderTheHoodSection: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {techStack.map((tech, idx) => (
               <div
                 key={idx}
@@ -385,6 +400,46 @@ export const UnderTheHoodSection: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Unified System Architecture Diagram Viewer */}
+        <div className="mt-16 pt-12 border-t border-dashed border-line">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <span className="eyebrow-tag !mb-1">FULL-SYSTEM CLOUD TOPOLOGY</span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-pasture-900">
+                End-to-End System Architecture
+              </h3>
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed mt-1">
+                Visualizing the complete 5-layer interaction between rural edge mobile apps, resilient API gateway, Spring Boot microservices, PostGIS spatial clustering, and multi-AZ cloud infrastructure.
+              </p>
+            </div>
+            <a
+              href="/system_architecture.svg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card border border-line hover:border-pasture-900 font-mono text-xs text-pasture-900 font-semibold transition-all shadow-xs shrink-0 self-start sm:self-auto"
+            >
+              <span>View Full Vector SVG</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          <div className="bg-card border border-line rounded-3xl p-4 sm:p-6 shadow-tactile overflow-hidden tactile-card space-y-4">
+            <div className="relative w-full rounded-2xl overflow-hidden border border-line-soft bg-white p-2">
+              <Image
+                src="/system_architecture.svg"
+                alt="Vetra Enterprise Platform Architecture"
+                width={940}
+                height={900}
+                className="w-full h-auto object-contain max-h-[720px] mx-auto select-none"
+              />
+            </div>
+            <div className="pt-3 border-t border-dashed border-line-soft font-mono text-[11px] text-ink-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <span>Architecture Tiers: 01 Client Apps • 02 Gateway &amp; Auth • 03 Domain Services • 04 Spatial Data Tier • 05 AWS Cloud &amp; SRE</span>
+              <span className="text-pasture-700 font-semibold">Spring Boot 3.4.3 • PostGIS 17 • ECS Fargate</span>
+            </div>
           </div>
         </div>
 
