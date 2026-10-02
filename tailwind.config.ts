@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 
+// Palette is taken from the Vetra logo (forest green) and the yellow livestock ear tag.
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,55 +11,78 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
-          DEFAULT: "#F1EEE1",
-          alt: "#EAE5D4",
+          DEFAULT: "#F7F8F4",
+          alt: "#EDF0E9",
         },
+        night: {
+          DEFAULT: "#06261A",
+          2: "#0B3423",
+        },
+        leaf: "#8DC63F",
+        // Vetra app design system (lib/core/design_system/app_colors.dart)
+        parch: { DEFAULT: "#F4EEE5", deep: "#EAE2D6" },
+        sage: "#EBF0DD",
+        olive: { DEFAULT: "#3F6900", deep: "#2E4D00" },
+        lime: "#94E130",
+        danger: "#C62828",
+        amber: "#F2994A",
+        vet: "#2F6FDE",
+        hair: "#A1A1A1",
+        outline: "#C1CAB0",
+        coal: { DEFAULT: "#141414", 2: "#1F1F1F", 3: "#2A2A2A" },
         ink: {
-          DEFAULT: "#211F16",
-          soft: "#4B4939",
-          muted: "#7A7865",
+          DEFAULT: "#141414",
+          soft: "#4E4D4C",
+          muted: "#737373",
+        },
+        line: {
+          DEFAULT: "rgba(15, 31, 23, 0.14)",
+          soft: "rgba(15, 31, 23, 0.08)",
         },
         pasture: {
-          900: "#1E3324",
-          800: "#243E2C",
-          700: "#2C4A34",
-          600: "#35593E",
-          500: "#3F6B49",
-          400: "#52845D",
-          300: "#7CA584",
-          100: "#D3E2D6",
-          50: "#EAF2EC",
+          900: "#0B3D24",
+          800: "#0E4B2C",
+          700: "#145A35",
+          600: "#1B6B3F",
+          500: "#2A7D4B",
+          400: "#4C9A63",
+          300: "#84BC93",
+          100: "#D5E8D9",
+          50: "#ECF5EE",
         },
         clay: {
           700: "#7A4E2C",
           500: "#9C6438",
         },
         gold: {
-          600: "#B98726",
-          500: "#D2A23A",
-          400: "#E3B95B",
-          100: "#F6ECD2",
+          600: "#8F6A00",
+          500: "#F2C200",
+          400: "#F7D54A",
+          100: "#FDF3C4",
         },
         alert: {
-          600: "#AE402C",
-          500: "#C64C36",
-          100: "#F9DDD7",
+          600: "#B32F18",
+          500: "#C9381F",
+          100: "#F9DCD5",
         },
         card: {
-          DEFAULT: "#FBF8EF",
-          alt: "#F4F0E4",
+          DEFAULT: "#FFFFFF",
+          alt: "#F7F8F4",
         },
       },
       fontFamily: {
-        serif: ["'Fraunces'", "Georgia", "serif"],
-        sans: ["'IBM Plex Sans'", "system-ui", "-apple-system", "sans-serif"],
-        mono: ["'IBM Plex Mono'", "ui-monospace", "monospace"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        deva: ["var(--font-deva)", "var(--font-body)", "sans-serif"],
+        sans: ["var(--font-body)", "system-ui", "-apple-system", "sans-serif"],
+        // Older demo components use font-serif for headings; point them at the display face.
+        serif: ["var(--font-display)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       boxShadow: {
-        tactile: "0 20px 50px -25px rgba(30,51,36,0.35)",
-        "tactile-lg": "0 30px 60px -20px rgba(30,51,36,0.45)",
-        "tactile-hover": "0 25px 60px -15px rgba(30,51,36,0.4)",
-        passport: "0 25px 50px -12px rgba(30, 51, 36, 0.28), 0 0 0 1px rgba(33, 31, 22, 0.14)",
+        tactile: "0 20px 50px -25px rgba(11,61,36,0.30)",
+        "tactile-lg": "0 30px 60px -20px rgba(11,61,36,0.40)",
+        "tactile-hover": "0 25px 60px -15px rgba(11,61,36,0.35)",
+        passport: "0 25px 50px -12px rgba(11, 61, 36, 0.25), 0 0 0 1px rgba(15, 31, 23, 0.12)",
       },
       animation: {
         scan: "scan 4.5s ease-in-out infinite",
