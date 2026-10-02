@@ -44,7 +44,7 @@ const SAMPLE_CASES: DiagnosticCase[] = [
     confidencePercent: 89,
     recommendedAction: "Isolate in clean, dry stall. Apply 2% potassium permanganate wash.",
     assignedDoctor: "Dr. R. Pawar, B.V.Sc",
-    doctorStation: "Nashik Regional Veterinary Polyclinic (VCI #8821)",
+    doctorStation: "Nashik Regional Veterinary Polyclinic",
     spokenAudioText:
       "AI-Assisted Assessment: Early stage interdigital lesion detected on bovine hoof margin. Recommendation: Maintain in dry stall, apply mild antiseptic foot wash, and await physical exam by Dr. Pawar.",
   },
@@ -58,7 +58,7 @@ const SAMPLE_CASES: DiagnosticCase[] = [
     confidencePercent: 94,
     recommendedAction: "Maintain strict isolation. Disinfect premises and mobilize ring vaccination.",
     assignedDoctor: "Dr. S. Deshmukh, M.V.Sc",
-    doctorStation: "Baramati Veterinary Center (VCI #8491)",
+    doctorStation: "Baramati Veterinary Center",
     spokenAudioText:
       "High Priority Triage Notice: Raised cutaneous nodules consistent with Lumpy Skin Disease pattern. Immediate 15 kilometer biosecurity isolation and physical confirmation required.",
   },
@@ -72,7 +72,7 @@ const SAMPLE_CASES: DiagnosticCase[] = [
     confidencePercent: 91,
     recommendedAction: "Perform California Mastitis Test (CMT). Strip milk sample for culture.",
     assignedDoctor: "Dr. M. Kulkarni, B.V.Sc",
-    doctorStation: "Pune District Veterinary Clinic (VCI #9204)",
+    doctorStation: "Pune District Veterinary Clinic",
     spokenAudioText:
       "Mammary Assessment: Asymmetric udder swelling detected. Recommended action: California Mastitis reagent test and somatic cell audit by Dr. Kulkarni.",
   },
@@ -86,7 +86,7 @@ const SAMPLE_CASES: DiagnosticCase[] = [
     confidencePercent: 93,
     recommendedAction: "Emergency: Pass stomach tube. Keep animal moving. Administer antifoaming drench.",
     assignedDoctor: "Dr. A. Shinde, Emergency Vet",
-    doctorStation: "Rural Emergency Mobile Veterinary Unit (VCI #7712)",
+    doctorStation: "Rural Emergency Mobile Veterinary Unit",
     spokenAudioText:
       "Emergency Triage Alert: Marked left flank distension indicating acute ruminal tympany. Emergency veterinary dispatch initiated.",
   },
